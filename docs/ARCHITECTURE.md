@@ -6,14 +6,13 @@ Each feature owns its components, stores, composables, and types. Shared/cross-c
 
 ```
 src/
-├── app/                          # App shell
-│   ├── App.vue                   # Root component — layout, router-view
-│   ├── main.ts                   # Entry point — create app, register plugins
-│   └── router/
-│       └── index.ts              # Route definitions (lazy-loaded)
+├── App.vue                       # Root component — layout, router-view
+├── main.ts                       # Entry point — create app, register plugins
+├── router/
+│   └── index.ts                  # Route definitions (lazy-loaded)
 │
-├── features/
-│   ├── dashboard/                # Genre dashboard (home page)
+├── features/                     # Domain features (user-facing capabilities with routes)
+│   ├── dashboard/                # / — genre dashboard (home page)
 │   │   ├── components/
 │   │   │   ├── GenreSection.vue  # Genre heading + horizontal show list
 │   │   │   └── ShowList.vue      # Horizontal scrollable row of ShowCards
@@ -21,38 +20,35 @@ src/
 │   │   │   └── dashboardStore.ts # Fetches shows, groups by genre, sorts by rating
 │   │   └── DashboardView.vue     # Route-level page
 │   │
-│   ├── show-detail/              # Individual show page
+│   ├── details/                  # /show/:id — individual show page
 │   │   ├── components/
 │   │   │   ├── ShowInfo.vue      # Title, summary, schedule, network
 │   │   │   ├── CastList.vue      # Cast members grid
 │   │   │   └── SimilarShows.vue  # AI-powered suggestions
-│   │   └── ShowDetailView.vue    # Route-level page
+│   │   └── DetailsView.vue       # Route-level page
 │   │
-│   ├── search/                   # Search feature
-│   │   ├── components/
-│   │   │   └── SearchResults.vue # Results grid
-│   │   ├── stores/
-│   │   │   └── searchStore.ts    # Search query state, debounced API calls
-│   │   └── SearchView.vue        # Route-level page
-│   │
-│   └── theme/                    # Dark/light mode toggle
+│   └── search/                   # /search — search feature
 │       ├── components/
-│       │   └── ThemeToggle.vue
-│       ├── composables/
-│       │   └── useTheme.ts       # Theme state, localStorage persistence
-│       └── stores/
-│           └── themeStore.ts
+│       │   └── SearchResults.vue # Results grid
+│       ├── stores/
+│       │   └── searchStore.ts    # Search query state, debounced API calls
+│       └── SearchView.vue        # Route-level page
 │
-├── shared/                       # Cross-cutting, reusable code
+├── shared/                       # Cross-cutting reusable code (no domain logic)
 │   ├── components/
 │   │   ├── AppHeader.vue         # Logo, nav, search bar, theme toggle
 │   │   ├── AppFooter.vue
+│   │   ├── NotFoundView.vue      # 404 catch-all page
+│   │   ├── ThemeToggle.vue       # Dark/light mode switch
 │   │   ├── ShowCard.vue          # Reusable show card (used by dashboard + search)
 │   │   ├── StarRating.vue        # Visual rating display
 │   │   └── SkeletonLoader.vue    # Loading placeholder
 │   ├── composables/
+│   │   ├── useTheme.ts           # Theme state, localStorage persistence
 │   │   ├── useDebounce.ts
 │   │   └── useIntersectionObserver.ts
+│   ├── stores/
+│   │   └── themeStore.ts         # App-wide UI preference (dark/light)
 │   ├── services/
 │   │   └── tvmazeApi.ts          # All TVMaze HTTP calls
 │   ├── types/
@@ -60,12 +56,17 @@ src/
 │   └── utils/
 │       └── formatters.ts         # Date formatting, HTML stripping, etc.
 │
-├── assets/                       # Static assets
-│   └── styles/
-│       └── main.css              # Tailwind directives, global resets
-│
-└── env.d.ts                      # Vite environment type declarations
+└── assets/
+    └── main.css                  # Tailwind import, theme tokens, base styles
 ```
+
+## Why `features/` vs `shared/`
+
+A folder belongs in `features/` if it represents a **user-facing capability with its own route, store, and domain logic**. Theme is a UI preference, not a capability — it lives in `shared/`.
+
+**The test:** "Could this exist as a standalone mini-app?"
+- Search → yes (route + UI + state) → feature
+- Theme → no (just a preference toggle) → shared
 
 ## Design Principles
 
