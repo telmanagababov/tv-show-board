@@ -2,8 +2,8 @@
 </script>
 
 <template>
-  <main>
-    <h1>TV Show Board</h1>
-    <p>Dashboard coming soon.</p>
+  <main class="min-h-screen bg-bg p-8 text-fg">
+    <h1 class="text-4xl font-bold text-brand">TV Show Board</h1>
+    <p class="mt-4 text-fg-muted">Dashboard coming soon.</p>
   </main>
 </template>
