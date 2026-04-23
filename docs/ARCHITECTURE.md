@@ -2,7 +2,13 @@
 
 ## Project Structure — Feature-Based (Domain-Driven)
 
-Each feature owns its components, stores, composables, and types. Shared/cross-cutting code lives under `shared/`.
+The `src/` tree has three top-level buckets with distinct responsibilities:
+
+| Bucket       | Purpose                                          | Reused?           |
+| ------------ | ------------------------------------------------ | ----------------- |
+| `shell/`     | App frame: header, footer, 404, layout chrome    | Used **once**     |
+| `features/`  | Domain capabilities: dashboard, details, search  | Used by router    |
+| `shared/`    | Reusable building blocks: components, services   | Used **many**     |
 
 ```
 src/
@@ -10,6 +16,11 @@ src/
 ├── main.ts                       # Entry point — create app, register plugins
 ├── router/
 │   └── index.ts                  # Route definitions (lazy-loaded)
+│
+├── shell/                        # App frame — used once, not reusable
+│   ├── AppHeader.vue             # Logo, nav, search bar, theme toggle
+│   ├── AppFooter.vue
+│   └── NotFoundView.vue          # 404 catch-all page
 │
 ├── features/                     # Domain features (user-facing capabilities with routes)
 │   ├── dashboard/                # / — genre dashboard (home page)
@@ -36,10 +47,7 @@ src/
 │
 ├── shared/                       # Cross-cutting reusable code (no domain logic)
 │   ├── components/
-│   │   ├── AppHeader.vue         # Logo, nav, search bar, theme toggle
-│   │   ├── AppFooter.vue
-│   │   ├── NotFoundView.vue      # 404 catch-all page
-│   │   ├── ThemeToggle.vue       # Dark/light mode switch
+│   │   ├── ThemeToggle.vue       # Dark/light mode switch (used by AppHeader)
 │   │   ├── ShowCard.vue          # Reusable show card (used by dashboard + search)
 │   │   ├── StarRating.vue        # Visual rating display
 │   │   └── SkeletonLoader.vue    # Loading placeholder
@@ -60,13 +68,23 @@ src/
     └── main.css                  # Tailwind import, theme tokens, base styles
 ```
 
-## Why `features/` vs `shared/`
+## Bucket Decision Guide
 
-A folder belongs in `features/` if it represents a **user-facing capability with its own route, store, and domain logic**. Theme is a UI preference, not a capability — it lives in `shared/`.
+When deciding where a new file goes, ask in order:
 
-**The test:** "Could this exist as a standalone mini-app?"
-- Search → yes (route + UI + state) → feature
-- Theme → no (just a preference toggle) → shared
+1. **Is it the app's frame, used exactly once?** (header, footer, layout, 404)
+   → `shell/`
+2. **Does it represent a user-facing capability with its own route + domain logic?** (dashboard, search)
+   → `features/<name>/`
+3. **Is it a reusable building block used by 2+ places?** (ShowCard, useDebounce, tvmazeApi)
+   → `shared/`
+
+**Examples:**
+- `AppHeader.vue` → `shell/` (one header, one place it's used)
+- `SearchView.vue` → `features/search/` (route + domain)
+- `ShowCard.vue` → `shared/components/` (used by dashboard, search, similar shows)
+- `useTheme.ts` → `shared/composables/` (UI preference, used app-wide)
+- `tvmazeApi.ts` → `shared/services/` (used by multiple feature stores)
 
 ## Design Principles
 

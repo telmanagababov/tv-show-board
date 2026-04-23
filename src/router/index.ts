@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('@/shared/components/NotFoundView.vue'),
+      component: () => import('@/shell/NotFoundView.vue'),
     },
   ],
 })
