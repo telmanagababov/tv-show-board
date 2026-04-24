@@ -24,11 +24,13 @@ src/
 │   └── search/                   # /search — search feature
 │
 ├── shared/                       # Cross-cutting reusable code (no domain logic)
+│   ├── api                       # External API clients + raw response types
 │   ├── components
 │   ├── composables
+│   ├── i18n                      # vue-i18n setup + locale message files
 │   ├── stores
-│   ├── services
-│   ├── types
+│   ├── services                  # Local services (no network) — theme, storage, ...
+│   ├── types                     # Domain types and generic utility types
 │   └── utils
 │
 └── assets/
@@ -52,7 +54,8 @@ When deciding where a new file goes, ask in order:
 - `SearchView.vue` → `features/search/` (route + domain)
 - `ShowCard.vue` → `shared/components/` (used by dashboard, search, similar shows)
 - `useTheme.ts` → `shared/composables/` (UI preference, used app-wide)
-- `tvmazeApi.ts` → `shared/services/` (used by multiple feature stores)
+- `tvmazeApi.ts` → `shared/api/` (network client used by multiple feature stores)
+- `themeService.ts` → `shared/services/` (local, non-network service)
 
 ## Design Principles
 
@@ -75,6 +78,23 @@ features/a → features/b  ❌  Features should not import from each other
 ```
 
 Cross-feature communication goes through Pinia stores or the router.
+
+### API Boundary
+
+`shared/api/` holds external API clients (e.g. `tvmazeApi.ts`) and the raw
+response types that mirror those APIs (e.g. `tvmaze.types.ts`). These two
+files always live side-by-side because they evolve together.
+
+To keep the boundary meaningful:
+
+- **Domain types in `shared/types/` MUST NOT import from `shared/api/`.**
+  Duplicate the shape, don't reference it. The mapper inside the API service
+  is the only place where both worlds are visible.
+- Features generally consume domain types and stores, not raw API types.
+  Importing a `TvMaze*` type into a feature is a smell — it means the
+  abstraction is leaking.
+- `shared/services/` is reserved for local services that don't make
+  network calls (theme, storage, analytics, ...).
 
 ### Naming Conventions
 
