@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('@/features/dashboard/DashboardView.vue'),
     },
     {
-      path: '/show/:id',
+      path: '/details/:id',
       name: 'details',
       component: () => import('@/features/details/DetailsView.vue'),
     },
