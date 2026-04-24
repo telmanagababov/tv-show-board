@@ -43,3 +43,9 @@ __screenshots__/
 
 test-results/
 playwright-report/
+
+# dev
+docs/AGENT_PROMPT.md
+docs/PLAN.md
+docs/TASK.md
+docs/FEATURES.md
