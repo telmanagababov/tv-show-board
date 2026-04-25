@@ -4,7 +4,7 @@ import { getShows, getShowWithDetails, searchShows } from './tvmaze-api'
 import { ApiError } from './tvmaze-errors'
 
 describe('TVMaze API', () => {
-  const fetchMock = vi.fn()
+  const fetchMock = vi.fn<typeof fetch>()
 
   beforeEach(() => {
     vi.stubGlobal('fetch', fetchMock)
@@ -102,7 +102,7 @@ describe('TVMaze API', () => {
 function mockJsonResponse(body: unknown, init: ResponseInit = { status: 200 }): Response {
   return new Response(JSON.stringify(body), {
     ...init,
-    headers: { 'content-type': 'application/json', ...(init.headers ?? {}) },
+    headers: { 'content-type': 'application/json', ...init.headers },
   })
 }
 

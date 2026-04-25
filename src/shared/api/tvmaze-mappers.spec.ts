@@ -1,0 +1,214 @@
+import { describe, expect, it } from 'vitest'
+
+import { mapShowDetails, mapShowSummary, mapStatus } from './tvmaze-mappers'
+import type {
+  TvMazeCastMember,
+  TvMazeShow,
+  TvMazeShowImage,
+  TvMazeShowWithEmbeds,
+} from './tvmaze-types'
+
+describe('tvmaze mappers', () => {
+  describe('mapShowSummary', () => {
+    it('maps the happy-path fields directly', () => {
+      const api = makeTvMazeShow()
+
+      expect(mapShowSummary(api)).toEqual({
+        id: 1,
+        name: 'Breaking Bad',
+        genres: ['Drama', 'Crime'],
+        rating: 9.3,
+        summaryHtml: '<p>A high school chemistry teacher.</p>',
+        summaryText: 'A high school chemistry teacher.',
+        image: { medium: 'med.jpg', original: 'orig.jpg' },
+        premieredYear: 2008,
+        status: 'ended',
+        language: 'English',
+        network: 'AMC',
+      })
+    })
+
+    it('preserves nullability for fields where "missing" is meaningful UX', () => {
+      const api = makeTvMazeShow({
+        rating: { average: null },
+        image: null,
+        summary: null,
+        premiered: null,
+        language: null,
+        network: null,
+        webChannel: null,
+      })
+
+      const show = mapShowSummary(api)
+
+      expect(show.rating).toBeNull()
+      expect(show.image).toBeNull()
+      expect(show.summaryHtml).toBe('')
+      expect(show.summaryText).toBe('')
+      expect(show.premieredYear).toBeNull()
+      expect(show.language).toBeNull()
+      expect(show.network).toBeNull()
+    })
+
+    it('falls back to webChannel name when no broadcast network is set', () => {
+      const api = makeTvMazeShow({
+        network: null,
+        webChannel: { id: 5, name: 'Netflix', country: null, officialSite: null },
+      })
+
+      expect(mapShowSummary(api).network).toBe('Netflix')
+    })
+
+    it('returns a fresh genres array (does not alias the API object)', () => {
+      const api = makeTvMazeShow({ genres: ['Drama'] })
+      const show = mapShowSummary(api)
+
+      expect(show.genres).not.toBe(api.genres)
+      expect(show.genres).toEqual(['Drama'])
+    })
+
+    it('drops fields that are not part of the domain shape', () => {
+      const show = mapShowSummary(makeTvMazeShow())
+
+      expect(show).not.toHaveProperty('_links')
+      expect(show).not.toHaveProperty('weight')
+      expect(show).not.toHaveProperty('externals')
+      expect(show).not.toHaveProperty('updated')
+    })
+  })
+
+  describe('mapShowDetails', () => {
+    it('extends the summary with details + maps embedded cast and images', () => {
+      const api: TvMazeShowWithEmbeds = {
+        ...makeTvMazeShow({ officialSite: 'https://breakingbad.com' }),
+        _embedded: {
+          cast: [makeCastMember()],
+          images: [makeShowImage()],
+        },
+      }
+
+      const show = mapShowDetails(api)
+
+      expect(show.id).toBe(1)
+      expect(show.officialSite).toBe('https://breakingbad.com')
+      expect(show.schedule).toEqual({ time: '22:00', days: ['Sunday'] })
+      expect(show.cast).toEqual([
+        {
+          personId: 100,
+          personName: 'Bryan Cranston',
+          personImage: { medium: 'p-med.jpg', original: 'p-orig.jpg' },
+          characterId: 200,
+          characterName: 'Walter White',
+          voice: false,
+          self: false,
+        },
+      ])
+      expect(show.images).toEqual([
+        {
+          id: 300,
+          type: 'poster',
+          main: true,
+          original: { url: 'orig.jpg', width: 1000, height: 1500 },
+          medium: { url: 'med.jpg', width: 200, height: 300 },
+        },
+      ])
+    })
+
+    it('uses empty arrays when no cast or images are embedded', () => {
+      const api: TvMazeShowWithEmbeds = makeTvMazeShow()
+      const show = mapShowDetails(api)
+
+      expect(show.cast).toEqual([])
+      expect(show.images).toEqual([])
+    })
+
+    it('returns a fresh days array (does not alias the API object)', () => {
+      const api: TvMazeShowWithEmbeds = makeTvMazeShow()
+      const show = mapShowDetails(api)
+
+      expect(show.schedule.days).not.toBe(api.schedule.days)
+    })
+  })
+
+  describe('mapStatus', () => {
+    it.each([
+      ['Running', 'running'],
+      ['Ended', 'ended'],
+      ['To Be Determined', 'upcoming'],
+      ['In Development', 'upcoming'],
+    ] as const)('maps "%s" to "%s"', (input, expected) => {
+      expect(mapStatus(input)).toBe(expected)
+    })
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Fixtures
+// ---------------------------------------------------------------------------
+
+function makeTvMazeShow(overrides: Partial<TvMazeShow> = {}): TvMazeShow {
+  return {
+    id: 1,
+    url: 'https://www.tvmaze.com/shows/1/breaking-bad',
+    name: 'Breaking Bad',
+    type: 'Scripted',
+    language: 'English',
+    genres: ['Drama', 'Crime'],
+    status: 'Ended',
+    runtime: 60,
+    averageRuntime: 60,
+    premiered: '2008-01-20',
+    ended: '2013-09-29',
+    officialSite: null,
+    schedule: { time: '22:00', days: ['Sunday'] },
+    rating: { average: 9.3 },
+    weight: 100,
+    network: { id: 20, name: 'AMC', country: null, officialSite: null },
+    webChannel: null,
+    dvdCountry: null,
+    externals: { tvrage: null, thetvdb: null, imdb: null },
+    image: { medium: 'med.jpg', original: 'orig.jpg' },
+    summary: '<p>A high school chemistry teacher.</p>',
+    updated: 0,
+    _links: { self: { href: 'x' } },
+    ...overrides,
+  }
+}
+
+function makeCastMember(): TvMazeCastMember {
+  return {
+    person: {
+      id: 100,
+      url: '',
+      name: 'Bryan Cranston',
+      country: null,
+      birthday: null,
+      deathday: null,
+      gender: null,
+      image: { medium: 'p-med.jpg', original: 'p-orig.jpg' },
+      updated: 0,
+      _links: { self: { href: '' } },
+    },
+    character: {
+      id: 200,
+      url: '',
+      name: 'Walter White',
+      image: null,
+      _links: { self: { href: '' } },
+    },
+    self: false,
+    voice: false,
+  }
+}
+
+function makeShowImage(): TvMazeShowImage {
+  return {
+    id: 300,
+    type: 'poster',
+    main: true,
+    resolutions: {
+      original: { url: 'orig.jpg', width: 1000, height: 1500 },
+      medium: { url: 'med.jpg', width: 200, height: 300 },
+    },
+  }
+}

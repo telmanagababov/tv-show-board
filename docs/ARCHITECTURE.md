@@ -81,20 +81,43 @@ Cross-feature communication goes through Pinia stores or the router.
 
 ### API Boundary
 
-`shared/api/` holds external API clients (e.g. `tvmaze-api.ts`) and the raw
-response types that mirror those APIs (e.g. `tvmaze-types.ts`). These two
-files always live side-by-side because they evolve together.
+`shared/api/` holds two layers, both prefixed by the provider name:
+
+- **Vendor layer** — raw shapes and the HTTP client that produces them.
+  Knows about URLs, status codes and the API's wire vocabulary.
+  Currently: `tvmaze-types.ts`, `tvmaze-errors.ts`, `tvmaze-api.ts`.
+- **Mapper layer** — pure `raw → domain` translation functions.
+  Currently: `tvmaze-mappers.ts`.
+- **Façade layer** — domain-named, vendor-agnostic public functions
+  composed from the two above. Returns domain types only.
+  Currently: `shows-api.ts`.
+
+```
+shows-api.ts ──► tvmaze-api.ts     ──► fetch
+            └──► tvmaze-mappers.ts ──► shared/types/show.ts
+```
 
 To keep the boundary meaningful:
 
+- **Outside `shared/api/`, only the façade modules (e.g. `shows-api.ts`)
+  may be imported.** The `tvmaze-*` files are folder-private — treat them
+  as implementation details of the façade.
 - **Domain types in `shared/types/` MUST NOT import from `shared/api/`.**
-  Duplicate the shape, don't reference it. The mapper inside the API service
-  is the only place where both worlds are visible.
+  Duplicate the shape, don't reference it. The mapper layer is the only
+  place where both worlds are visible.
 - Features generally consume domain types and stores, not raw API types.
   Importing a `TvMaze*` type into a feature is a smell — it means the
   abstraction is leaking.
+- A new provider (OMDb, an AI endpoint, a local cache) is added as another
+  vendor + mapper pair. Composition happens inside the façade; consumers
+  do not change.
 - `shared/services/` is reserved for local services that don't make
   network calls (theme, storage, analytics, ...).
+
+> The "façade-only" rule and the `shared/types/ ↛ shared/api/` rule are
+> enforced by convention today. Mechanizing them via ESLint
+> `no-restricted-imports` is tracked as **PLAN 4.8** (post-MVP). Until then,
+> reviewers and `ARCHITECTURE.md` are the enforcement.
 
 ### Naming Conventions
 
