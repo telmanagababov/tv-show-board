@@ -136,3 +136,58 @@ To keep the boundary meaningful:
 - **Single Responsibility** — one component does one thing well
 - **Composables for logic** — extract stateful logic out of components into `use*.ts` files
 - **Thin templates** — use `computed` properties instead of inline expressions
+
+---
+
+## Testing Conventions
+
+Stack: **Vitest** + **`@vue/test-utils`**. Spec files live next to the file they test (`Foo.vue` → `Foo.spec.ts`).
+
+### Component spec anatomy
+
+```ts
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+
+import { i18n } from '@/shared/i18n' // always provide the real i18n plugin
+import MyComponent from './MyComponent.vue' // side-effect imports (i18n registration) run here
+
+describe('MyComponent', () => {
+  // 1. Locators object — maps semantic names to data-testid selectors.
+  //    Defined once at the top of describe; never inline magic strings in assertions.
+  const locators = {
+    title: '[data-testid="my-title"]',
+    subtitle: '[data-testid="my-subtitle"]',
+  } as const
+
+  // 2. Typed wrapper — VueWrapper<InstanceType<typeof Component>>
+  let view: VueWrapper<InstanceType<typeof MyComponent>>
+
+  // 3. beforeEach mounts fresh — avoids state leaking between tests
+  beforeEach(() => {
+    view = mount(MyComponent, {
+      global: { plugins: [i18n] },
+    })
+  })
+
+  it('...', () => {
+    expect(view.find(locators.title).text()).toBeTruthy()
+  })
+})
+```
+
+### Rules
+
+| Rule                                             | Rationale                                                                                                                                                       |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`data-testid` attributes in templates**        | Decouple selectors from CSS classes and DOM structure. Tests survive style refactors.                                                                           |
+| **`locators` object, typed `as const`**          | Single definition per spec — rename a testid in one place and the error points you to the test.                                                                 |
+| **`VueWrapper<InstanceType<typeof Component>>`** | Full type for `view` — gives you typed access to component instance properties if needed.                                                                       |
+| **`beforeEach` for mounting**                    | Guarantees a fresh wrapper for every test; no shared mutable state between `it` blocks.                                                                         |
+| **Real `i18n` plugin, not a mock**               | Exercises actual message resolution. A missing key throws in dev (our `missing` handler) — the test fails loudly rather than silently returning the key string. |
+| **`toBeTruthy()` for translated text**           | Asserts the element has content without hard-coding the English string. Survives copy changes without breaking tests.                                           |
+
+### When to assert exact strings vs `toBeTruthy()`
+
+- **`toBeTruthy()`** — use for i18n-translated user-visible text. Copy changes should not break unit tests.
+- **Exact string** — use when the value is a domain constant (an ID, a URL, a computed value from test data) that must not drift.
