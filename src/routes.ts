@@ -12,6 +12,7 @@ const router = createRouter({
       path: '/details/:id',
       name: 'details',
       component: () => import('@/features/details/DetailsView.vue'),
+      props: true,
     },
     {
       path: '/search',

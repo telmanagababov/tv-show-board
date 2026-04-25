@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
+const props = defineProps<{ id: string }>()
 </script>
 
 <template>
   <main class="bg-bg text-fg min-h-screen p-8">
-    <h1 class="text-3xl font-bold">Details for show #{{ route.params.id }}</h1>
-    <p class="text-fg-muted mt-4">Details coming soon.</p>
+    <h1 class="text-3xl font-bold" data-testid="details-heading">Details for show #{{ props.id }}</h1>
+    <p class="text-fg-muted mt-4" data-testid="details-coming-soon">Details coming soon.</p>
   </main>
 </template>
