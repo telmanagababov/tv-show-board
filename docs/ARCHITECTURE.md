@@ -54,7 +54,7 @@ When deciding where a new file goes, ask in order:
 - `SearchView.vue` → `features/search/` (route + domain)
 - `ShowCard.vue` → `shared/components/` (used by dashboard, search, similar shows)
 - `useTheme.ts` → `shared/composables/` (UI preference, used app-wide)
-- `tvmazeApi.ts` → `shared/api/` (network client used by multiple feature stores)
+- `tvmaze-api.ts` → `shared/api/` (network client used by multiple feature stores)
 - `themeService.ts` → `shared/services/` (local, non-network service)
 
 ## Design Principles
@@ -81,8 +81,8 @@ Cross-feature communication goes through Pinia stores or the router.
 
 ### API Boundary
 
-`shared/api/` holds external API clients (e.g. `tvmazeApi.ts`) and the raw
-response types that mirror those APIs (e.g. `tvmaze.types.ts`). These two
+`shared/api/` holds external API clients (e.g. `tvmaze-api.ts`) and the raw
+response types that mirror those APIs (e.g. `tvmaze-types.ts`). These two
 files always live side-by-side because they evolve together.
 
 To keep the boundary meaningful:
