@@ -1,57 +1,51 @@
 @import 'tailwindcss';
 
-/* Enable class-based dark mode: triggered when `.dark` is on <html> or any ancestor */
 @variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
  * Design Tokens
- *
- * Define raw color palette + semantic tokens. Components reference semantic
- * tokens (bg-surface, text-fg) — never raw palette values. To re-skin the app
- * we only change the semantic mappings below.
  * ------------------------------------------------------------------------- */
 
 :root {
-  /* Brand */
-  --color-brand: #6366f1; /* indigo-500 */
-  --color-brand-hover: #4f46e5; /* indigo-600 */
+  --color-brand: #009488;
+  --color-brand-hover: #007a70;
+  --color-brand-dark: #007568;
+  --color-accent: #f9bd20;
 
-  /* Semantic — Light theme */
   --color-bg: #ffffff;
-  --color-surface: #f8fafc; /* card / elevated background */
-  --color-surface-hover: #f1f5f9;
-  --color-border: #e2e8f0;
+  --color-surface: #f5f7f7;
+  --color-surface-hover: #e8f0ef;
+  --color-border: #d0dedd;
 
-  --color-fg: #0f172a; /* primary text */
-  --color-fg-muted: #475569; /* secondary text */
-  --color-fg-subtle: #94a3b8; /* tertiary text */
+  --color-fg: #0d1f1e;
+  --color-fg-muted: #3d5c5a;
+  --color-fg-subtle: #7a9896;
 
   --color-success: #10b981;
-  --color-warning: #f59e0b;
+  --color-warning: #f9bd20;
   --color-danger: #ef4444;
 }
 
 .dark {
-  --color-bg: #0a0a0a;
-  --color-surface: #171717;
-  --color-surface-hover: #262626;
-  --color-border: #2a2a2a;
+  --color-bg: #071212;
+  --color-surface: #0e1f1e;
+  --color-surface-hover: #172e2c;
+  --color-border: #1f3c3a;
 
-  --color-fg: #f8fafc;
-  --color-fg-muted: #cbd5e1;
-  --color-fg-subtle: #64748b;
+  --color-fg: #e8f5f4;
+  --color-fg-muted: #9ec8c5;
+  --color-fg-subtle: #4d7e7b;
 }
 
 /* ---------------------------------------------------------------------------
  * Tailwind theme registration
- *
- * `@theme inline` exposes our CSS variables to Tailwind so utilities like
- * `bg-surface`, `text-fg-muted`, `border-border` are auto-generated.
  * ------------------------------------------------------------------------- */
 
 @theme inline {
   --color-brand: var(--color-brand);
   --color-brand-hover: var(--color-brand-hover);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-accent: var(--color-accent);
 
   --color-bg: var(--color-bg);
   --color-surface: var(--color-surface);
@@ -100,8 +94,14 @@ body {
     color 0.2s ease;
 }
 
-/* Visible focus ring for keyboard users (a11y) */
+/* Visible focus ring for keyboard users (a11y). */
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
+}
+
+/* Suppress the native browser clear (✕) button on search inputs. */
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
 }

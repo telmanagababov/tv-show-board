@@ -1,27 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { RouteNames } from '@/shared/constants/route-names'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'dashboard',
+      name: RouteNames.DASHBOARD,
       component: () => import('@/features/dashboard/DashboardView.vue'),
     },
     {
       path: '/details/:id',
-      name: 'details',
+      name: RouteNames.DETAILS,
       component: () => import('@/features/details/DetailsView.vue'),
       props: true,
     },
     {
       path: '/search',
-      name: 'search',
+      name: RouteNames.SEARCH,
       component: () => import('@/features/search/SearchView.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
-      name: 'not-found',
+      name: RouteNames.NOT_FOUND,
       component: () => import('@/shell/NotFoundView.vue'),
     },
   ],

@@ -2,55 +2,52 @@
  * Search store — state for the search feature.
  *
  * Responsibilities:
- *  - hold the current search query
- *  - debounce API calls so we don't fire on every keystroke
+ *  - watch the URL's search query parameter and debounce API calls
  *  - expose search results and loading / error state
  */
 
 import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { defineStore } from 'pinia'
 import { searchShows } from '@/shared/api/shows-api'
 import { toErrorKey } from '@/shared/utils/to-error-key'
+import { SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
 import type { ShowSummary } from '@/shared/types/show'
 
 export const useSearchStore = defineStore('search', () => {
-  /** Milliseconds to wait after the last keystroke before hitting the API. */
   const DEBOUNCE_MS = 300
 
-  /** The current search query */
-  const query = ref('')
-  /** Latest search results */
+  const route = useRoute()
   const shows = ref<ShowSummary[]>([])
-  /** True while a search is in flight. */
   const loading = ref(false)
-  /** i18n key of the last error, or null when idle or the last search succeeded. */
   const error = ref<string | null>(null)
 
-  /** search debounce timer */
-  let debounceTimer: ReturnType<typeof setTimeout> | undefined = undefined
+  let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
   /**
-   * Watch the query and trigger a debounced search automatically.
-   * An empty / whitespace query clears results immediately without an API call.
+   * Watch the URL's query param. Fires immediately on store creation so a
+   * direct navigation to /search?q=batman triggers a fetch
    */
-  watch(query, (value) => {
-    if (value.trim()) {
+  watch(
+    () => (route.query[SEARCH_QUERY_KEY] as string | undefined) ?? '',
+    (query) => {
       clearTimeout(debounceTimer)
-      debounceTimer = setTimeout(() => performSearch(value), DEBOUNCE_MS)
-    } else {
-      clearSearch()
-    }
-  })
+      if (query.trim()) {
+        debounceTimer = setTimeout(() => performSearch(query.trim()), DEBOUNCE_MS)
+      } else {
+        shows.value = []
+        error.value = null
+      }
+    },
+    { immediate: true },
+  )
 
   /**
-   * Performs a search for the given query.
-   * Sets loading to true, clears error, and fetches results.
-   * If the search fails, sets error and clears results.
+   * Performs a search for the given query and updates the shows state.
    */
   async function performSearch(query: string): Promise<void> {
     loading.value = true
     error.value = null
-
     try {
       shows.value = await searchShows(query)
     } catch (err) {
@@ -61,22 +58,5 @@ export const useSearchStore = defineStore('search', () => {
     }
   }
 
-  /**
-   * Programmatic alternative to setting `query` directly.
-   * Useful when the caller wants a single call-site rather than a v-model binding.
-   */
-  function setQuery(newQuery: string): void {
-    query.value = newQuery
-  }
-
-  /** Clear the query, results, and any in-flight debounce. */
-  function clearSearch(): void {
-    clearTimeout(debounceTimer)
-    debounceTimer = undefined
-    query.value = ''
-    shows.value = []
-    error.value = null
-  }
-
-  return { query, shows, loading, error, setQuery, clearSearch, DEBOUNCE_MS }
+  return { shows, loading, error, DEBOUNCE_MS }
 })

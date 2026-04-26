@@ -5,18 +5,27 @@ import App from './App.vue'
 
 describe('App', () => {
   const locators = {
-    routerView: '[data-testid="app-router-view"]',
+    header: '[data-testid="app-header"]',
+    mainContent: '[data-testid="app-main-content"]',
   } as const
 
   let view: VueWrapper<InstanceType<typeof App>>
 
   beforeEach(() => {
     view = mount(App, {
-      global: { stubs: { RouterView: true } },
+      global: {
+        stubs: {
+          RouterView: true,
+          AppHeader: true,
+        },
+      },
     })
   })
 
-  it('renders a RouterView', () => {
-    expect(view.find(locators.routerView).exists()).toBe(true)
+  it('renders the header', () => {
+    expect(view.find(locators.header).exists()).toBe(true)
+  })
+  it('renders the main content', () => {
+    expect(view.find(locators.mainContent).exists()).toBe(true)
   })
 })
