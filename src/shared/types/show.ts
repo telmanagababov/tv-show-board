@@ -1,29 +1,23 @@
 /**
  * Domain types for the show concept.
- *
- * Shaped for the app's consumers (stores, components, views), not for any
- * external provider. The mapper from raw API shapes to these types lives in
- * `shared/api/tvmaze-mappers.ts`.
- *
- * Architecture rule: this file MUST NOT import from `shared/api/`.
  */
 
 /**
- * Lifecycle status, collapsed from the wider vocabulary external APIs use.
- *
- * - `running`  — currently airing
- * - `ended`    — concluded, no future episodes
- * - `upcoming` — announced but not yet aired
+ * Lifecycle status
  */
 export type ShowStatus = 'running' | 'ended' | 'upcoming'
 
-/** Two pre-sized variants of one artwork. `null` parents mean "no artwork". */
+/**
+ * Two pre-sized variants of one artwork.
+ */
 export interface ShowImage {
   medium: string
   original: string
 }
 
-/** Lightweight show shape for cards, lists, search results and dashboard rows. */
+/**
+ * Lightweight show shape for cards, lists, search results and dashboard rows.
+ */
 export interface ShowSummary {
   id: number
   name: string
@@ -44,7 +38,9 @@ export interface ShowSummary {
   network: string | null
 }
 
-/** One actor's portrayal of one character. Flattened from the API's nested envelope. */
+/**
+ * One actor's portrayal of one character.
+ */
 export interface CastMember {
   personId: number
   personName: string
@@ -57,7 +53,9 @@ export interface CastMember {
   self: boolean
 }
 
-/** Full image asset attached to a show — poster, background, banner, ... */
+/**
+ * Full image asset attached to a show.
+ */
 export interface ShowGalleryImage {
   id: number
   /** Open set: 'poster' | 'background' | 'banner' | 'typography' | ... */

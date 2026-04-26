@@ -13,14 +13,7 @@ import type {
   TvMazeShowStatus,
   TvMazeShowWithEmbeds,
 } from './tvmaze-types'
-import type {
-  CastMember,
-  ShowDetails,
-  ShowGalleryImage,
-  ShowImage,
-  ShowStatus,
-  ShowSummary,
-} from '@/shared/types/show'
+import type { CastMember, ShowDetails, ShowGalleryImage, ShowImage, ShowStatus, ShowSummary } from '@/shared/types/show'
 import { stripHtml } from '@/shared/utils/strip-html'
 
 export function mapShowSummary(api: TvMazeShow): ShowSummary {

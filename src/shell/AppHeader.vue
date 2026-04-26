@@ -63,12 +63,7 @@ function clearSearch(): void {
       </RouterLink>
 
       <!-- Search bar -->
-      <form
-        role="search"
-        class="flex flex-1 items-center"
-        data-testid="search-form"
-        @submit.prevent="updateSearch"
-      >
+      <form role="search" class="flex flex-1 items-center" data-testid="search-form" @submit.prevent="updateSearch">
         <label for="global-search" class="sr-only">Search TV shows</label>
 
         <div class="relative flex w-full items-center">

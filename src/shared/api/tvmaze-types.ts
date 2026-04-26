@@ -85,14 +85,7 @@ export type TvMazeShowType = LiteralUnion<
   | 'Award Show'
 >
 
-export type TvMazeScheduleDay =
-  | 'Monday'
-  | 'Tuesday'
-  | 'Wednesday'
-  | 'Thursday'
-  | 'Friday'
-  | 'Saturday'
-  | 'Sunday'
+export type TvMazeScheduleDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
 
 // ---------------------------------------------------------------------------
 // Show

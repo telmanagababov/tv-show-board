@@ -42,9 +42,7 @@ describe('TVMaze API', () => {
       await getShowWithDetails(1)
 
       // URL encodes `[` and `]` as %5B and %5D — that is correct.
-      expect(getFetchedUrl(fetchMock)).toBe(
-        'https://api.tvmaze.com/shows/1?embed%5B%5D=cast&embed%5B%5D=episodes',
-      )
+      expect(getFetchedUrl(fetchMock)).toBe('https://api.tvmaze.com/shows/1?embed%5B%5D=cast&embed%5B%5D=episodes')
     })
 
     it('returns the parsed show', async () => {

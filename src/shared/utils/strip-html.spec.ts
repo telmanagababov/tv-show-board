@@ -22,9 +22,7 @@ describe('stripHtmlTags', () => {
 
 describe('decodeHtmlEntities', () => {
   it('decodes the entities the app encounters', () => {
-    expect(decodeHtmlEntities('Tom &amp; Jerry &nbsp;&quot;cartoon&quot;')).toBe(
-      'Tom & Jerry  "cartoon"',
-    )
+    expect(decodeHtmlEntities('Tom &amp; Jerry &nbsp;&quot;cartoon&quot;')).toBe('Tom & Jerry  "cartoon"')
   })
 
   it('decodes &amp; last so escaped entities survive a single decode pass', () => {

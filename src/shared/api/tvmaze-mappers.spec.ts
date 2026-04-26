@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { mapShowDetails, mapShowSummary, mapStatus } from './tvmaze-mappers'
-import type {
-  TvMazeCastMember,
-  TvMazeShow,
-  TvMazeShowImage,
-  TvMazeShowWithEmbeds,
-} from './tvmaze-types'
+import type { TvMazeCastMember, TvMazeShow, TvMazeShowImage, TvMazeShowWithEmbeds } from './tvmaze-types'
 
 describe('tvmaze mappers', () => {
   describe('mapShowSummary', () => {

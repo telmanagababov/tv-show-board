@@ -42,10 +42,7 @@ export function searchShows(query: string): Promise<TvMazeSearchResult[]> {
  * @param searchParams - The search parameters to add to the URL.
  * @returns The response from the API.
  */
-async function tvmazeRequest<T>(
-  path: string,
-  searchParams?: Record<string, string | number | string[]>,
-): Promise<T> {
+async function tvmazeRequest<T>(path: string, searchParams?: Record<string, string | number | string[]>): Promise<T> {
   const url = new URL(path, BASE_URL)
   if (searchParams) {
     for (const [key, value] of Object.entries(searchParams)) {

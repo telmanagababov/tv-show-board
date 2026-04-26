@@ -211,9 +211,7 @@ describe('useShowsStore', () => {
     it('sorts each genre bucket by rating descending', async () => {
       // Only page 0 returns data; the other 4 resolve with [] to avoid duplicates.
       mockGetShows.mockImplementation((page = 0) =>
-        (page as number) === 0
-          ? Promise.resolve([drama2, drama1, multiGenre])
-          : Promise.resolve([]),
+        (page as number) === 0 ? Promise.resolve([drama2, drama1, multiGenre]) : Promise.resolve([]),
       )
       const store = useShowsStore()
       await store.fetchShows()
