@@ -54,7 +54,7 @@ function clearSearch(): void {
     role="banner"
     data-testid="app-header"
   >
-    <div class="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 sm:px-6">
+    <div class="flex h-14 max-w-7xl items-center gap-6 px-4 sm:px-6">
       <!-- Logo -->
       <RouterLink
         :to="{ name: RouteNames.DASHBOARD }"

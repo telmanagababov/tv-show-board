@@ -9,6 +9,7 @@ import ShowList from './ShowList.vue'
 const props = defineProps<{
   genre: string
   shows: ShowSummary[]
+  showSentinel?: boolean
 }>()
 
 const { t } = useI18n()
@@ -24,6 +25,6 @@ const ariaLabel = computed(() => t('dashboard.genreSection.ariaLabel', { genre: 
       {{ genre }}
     </h2>
 
-    <ShowList :shows="shows" :label="ariaLabel" :genre="genre" />
+    <ShowList :shows="shows" :label="ariaLabel" :genre="genre" :show-sentinel="showSentinel" />
   </section>
 </template>

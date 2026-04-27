@@ -130,6 +130,28 @@ To keep the boundary meaningful:
 | Views (pages)    | PascalCase, `*View` | `DashboardView.vue`    |
 | Directories      | kebab-case          | `show-detail/`         |
 
+### Design Tokens & UI Colors
+
+All colors are defined as CSS custom properties in `src/assets/main.css` and exposed as Tailwind utilities via `@theme inline`. **Never use raw hex values or Tailwind's built-in color scale (e.g. `red-500`, `green-600`) in component templates.** Always use the semantic token names so that dark-mode works automatically.
+
+| Token | Tailwind class | Usage |
+|---|---|---|
+| `--color-brand` | `text-brand` · `bg-brand` · `border-brand` | Primary interactive color (buttons, links, headings, focus rings) |
+| `--color-brand-hover` | `bg-brand-hover` | Hover state for `bg-brand` elements |
+| `--color-accent` | `text-accent` · `bg-accent` | Highlight / rating badge |
+| `--color-bg` | `bg-bg` | Page background |
+| `--color-surface` | `bg-surface` | Card / panel background |
+| `--color-surface-hover` | `bg-surface-hover` | Hover state for surface elements |
+| `--color-border` | `border-border` | All borders and dividers |
+| `--color-fg` | `text-fg` | Primary body text |
+| `--color-fg-muted` | `text-fg-muted` | Secondary / supporting text |
+| `--color-fg-subtle` | `text-fg-subtle` | Placeholder, meta, disabled text |
+| `--color-danger` | `text-danger` · `bg-danger` | Errors and destructive states |
+| `--color-success` | `text-success` · `bg-success` | Confirmations |
+| `--color-warning` | `text-warning` · `bg-warning` | Warnings |
+
+All tokens adapt between light and dark mode automatically via the `.dark` class on `<html>`. Dark-mode overrides for the semantic tokens are defined in the `.dark {}` block in `main.css`.
+
 ### Component Design
 
 - **Props down, events up** — parent passes data via props, child communicates via `emit`

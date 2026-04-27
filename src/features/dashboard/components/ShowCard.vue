@@ -6,6 +6,7 @@ import { RouteNames } from '@/shared/constants/route-names'
 import type { ShowSummary } from '@/shared/types/show'
 import { useGenreLabel } from '@/shared/composables/useGenreLabel'
 import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
+import Tooltip from '@/shared/components/Tooltip.vue'
 import '../i18n'
 
 const { t } = useI18n()
@@ -64,9 +65,11 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
 
     <!-- Title and year -->
     <div class="flex flex-col gap-0.5 px-2 py-2">
-      <p class="text-fg line-clamp-2 text-xs leading-snug font-semibold" data-testid="show-card-title">
-        {{ show.name }}
-      </p>
+      <Tooltip :text="show.name">
+        <p class="text-fg truncate text-xs leading-snug font-semibold" data-testid="show-card-title">
+          {{ show.name }}
+        </p>
+      </Tooltip>
       <p v-if="show.premieredYear" class="text-fg-subtle text-[10px]" data-testid="show-card-year">
         {{ show.premieredYear }}
       </p>

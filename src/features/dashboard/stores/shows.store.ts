@@ -34,7 +34,6 @@ export const useShowsStore = defineStore('shows', () => {
    */
   const showsByGenre = computed<Map<string, ShowSummary[]>>(() => {
     const showsMap = new Map<string, ShowSummary[]>()
-    // Group shows by genre
     shows.value.forEach((show) => {
       show.genres.forEach((genre) => {
         const showsByGenre = showsMap.get(genre) ?? []
@@ -42,7 +41,6 @@ export const useShowsStore = defineStore('shows', () => {
         showsMap.set(genre, showsByGenre)
       })
     })
-    // Sort shows by rating descending
     showsMap.forEach((showsByGenre) => {
       showsByGenre.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
     })
@@ -53,9 +51,17 @@ export const useShowsStore = defineStore('shows', () => {
   const genres = computed<string[]>(() => Array.from(showsByGenre.value.keys()).toSorted())
 
   /**
-   * Fetches the next batch of `PAGES_PER_BATCH` pages simultaneously and appends results to `shows`.
+   * Fetches the first batch only when the store is empty.
    */
   async function fetchShows(): Promise<void> {
+    if (shows.value.length > 0) return
+    await fetchMoreShows()
+  }
+
+  /**
+   * Fetches the next batch of shows.
+   */
+  async function fetchMoreShows(): Promise<void> {
     if (loading.value || !hasMore.value) return
 
     loading.value = true
@@ -78,7 +84,7 @@ export const useShowsStore = defineStore('shows', () => {
   }
 
   /**
-   * Fetches a batch of `pagesLength` pages of shows starting from `startPage` and returns the results.
+   * Fetches a batch of `pagesLength` pages of shows starting from `startPage`.
    */
   async function fetchShowPages(
     startPage: number,
@@ -105,5 +111,5 @@ export const useShowsStore = defineStore('shows', () => {
     return reason instanceof ApiError && reason.status === 404
   }
 
-  return { shows, loading, error, hasMore, showsByGenre, genres, fetchShows, PAGES_PER_BATCH }
+  return { shows, loading, error, hasMore, showsByGenre, genres, fetchShows, fetchMoreShows, PAGES_PER_BATCH }
 })

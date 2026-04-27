@@ -1,7 +1,11 @@
 {
-  "title": "Browse by Genre",
-  "subtitle": "Top-rated shows, grouped by what you love.",
+  "title": "Top-rated shows",
   "empty": "No shows to display yet.",
+  "loadMore": "Load more shows",
+  "showSentinel": {
+    "heading": "More shows",
+    "hint": "Load more below"
+  },
   "genreSection": {
     "ariaLabel": "{genre} shows"
   },
