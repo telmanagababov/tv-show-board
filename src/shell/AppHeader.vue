@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { RouterLink, useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
 import LogoBadge from '@/shell/LogoBadge.vue'
 import IconSearch from '@/shared/icons/IconSearch.vue'
 import IconClose from '@/shared/icons/IconClose.vue'
+import './i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const activeRoute = useRoute()
+
 const searchQuery = ref((activeRoute.query[SEARCH_QUERY_KEY] as string) ?? '')
 
 /**
@@ -55,7 +59,7 @@ function clearSearch(): void {
       <RouterLink
         :to="{ name: RouteNames.DASHBOARD }"
         class="flex shrink-0 items-center gap-2 text-white focus-visible:rounded focus-visible:outline-white"
-        aria-label="TV Board — home"
+        :aria-label="t('shell.header.logoAriaLabel')"
         data-testid="header-logo-link"
       >
         <LogoBadge class="size-7" />
@@ -64,7 +68,7 @@ function clearSearch(): void {
 
       <!-- Search bar -->
       <form role="search" class="flex flex-1 items-center" data-testid="search-form" @submit.prevent="updateSearch">
-        <label for="global-search" class="sr-only">Search TV shows</label>
+        <label for="global-search" class="sr-only">{{ t('shell.header.searchLabel') }}</label>
 
         <div class="relative flex w-full items-center">
           <IconSearch class="pointer-events-none absolute left-3 size-4 text-white/75" />
@@ -74,7 +78,7 @@ function clearSearch(): void {
             id="global-search"
             v-model="searchQuery"
             type="search"
-            placeholder="Search shows…"
+            :placeholder="t('shell.header.searchPlaceholder')"
             autocomplete="off"
             data-testid="search-input"
             class="focus:border-accent focus:ring-accent/40 h-9 w-full rounded-full border border-white/60 bg-white/10 pr-10 pl-9 text-sm text-white placeholder-white/70 transition outline-none focus:bg-white/20 focus:ring-2"
@@ -87,7 +91,7 @@ function clearSearch(): void {
             v-if="searchQuery"
             type="button"
             class="absolute right-3 flex size-5 cursor-pointer items-center justify-center rounded-full text-white/75 transition hover:text-white focus-visible:outline focus-visible:outline-white"
-            aria-label="Clear search"
+            :aria-label="t('shell.header.clearSearchAriaLabel')"
             data-testid="search-clear-btn"
             @click="clearSearch"
           >

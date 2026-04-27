@@ -6,6 +6,7 @@ import 'vue-i18n'
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 type CommonMessages = typeof import('./shared/i18n/messages/en/common.json')
 type ErrorsMessages = typeof import('./shared/i18n/messages/en/errors.json')
+type ShellMessages = typeof import('./shell/i18n/en.json')
 type DashboardMessages = typeof import('./features/dashboard/i18n/en.json')
 type DetailsMessages = typeof import('./features/details/i18n/en.json')
 type SearchMessages = typeof import('./features/search/i18n/en.json')
@@ -14,6 +15,7 @@ type SearchMessages = typeof import('./features/search/i18n/en.json')
 interface AppMessages {
   common: CommonMessages
   errors: ErrorsMessages
+  shell: ShellMessages
   dashboard: DashboardMessages
   details: DetailsMessages
   search: SearchMessages
