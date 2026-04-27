@@ -1,7 +1,19 @@
 {
+  "back": "Back",
   "summary": "Summary",
   "cast": "Cast",
-  "aired": "Aired",
+  "premiered": "Premiered",
   "genres": "Genres",
-  "back": "Back"
+  "network": "Network",
+  "schedule": "Schedule",
+  "language": "Language",
+  "rating": "Rating",
+  "officialSite": "Official Site",
+  "visitSite": "Visit site",
+  "noSummary": "No summary available.",
+  "noCast": "No cast information available.",
+  "statusRunning": "Running",
+  "statusEnded": "Ended",
+  "statusUpcoming": "Upcoming",
+  "scheduleAt": "{days} at {time}"
 }

@@ -22,6 +22,7 @@
     "format:check": "prettier --check --experimental-cli src/"
   },
   "dependencies": {
+    "dompurify": "^3.4.1",
     "pinia": "^3.0.4",
     "vue": "^3.5.32",
     "vue-i18n": "^11.4.0",
@@ -31,6 +32,7 @@
     "@playwright/test": "^1.59.1",
     "@tailwindcss/vite": "^4.2.4",
     "@tsconfig/node24": "^24.0.4",
+    "@types/dompurify": "^3.0.5",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^24.12.2",
     "@vitejs/plugin-vue": "^6.0.6",

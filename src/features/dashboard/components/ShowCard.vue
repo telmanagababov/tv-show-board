@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { RouteNames } from '@/shared/constants/route-names'
 import type { ShowSummary } from '@/shared/types/show'
 import { useGenreLabel } from '@/shared/composables/useGenreLabel'
+import { formatRating } from '@/shared/utils/format-rating'
 import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
 import Tooltip from '@/shared/components/Tooltip.vue'
 import '../i18n'
@@ -15,7 +16,7 @@ const props = defineProps<{ show: ShowSummary; genre?: string }>()
 
 const previewImage = computed(() => props.show.image?.medium ?? null)
 const isRated = computed(() => props.show.rating !== null)
-const ratingLabel = computed(() => (isRated.value ? props.show.rating!.toFixed(1) : '—'))
+const ratingLabel = computed(() => formatRating(props.show.rating))
 const genreLabel = computed(() => translateGenre(props.genre ?? ''))
 </script>
 
