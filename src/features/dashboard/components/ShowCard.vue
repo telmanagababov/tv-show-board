@@ -4,22 +4,32 @@ import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { RouteNames } from '@/shared/constants/route-names'
 import type { ShowSummary } from '@/shared/types/show'
+import { useGenreLabel } from '@/shared/composables/useGenreLabel'
 import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
 import '../i18n'
 
 const { t } = useI18n()
-const props = defineProps<{ show: ShowSummary }>()
+const { translateGenre } = useGenreLabel()
+const props = defineProps<{ show: ShowSummary; genre?: string }>()
 
 const previewImage = computed(() => props.show.image?.medium ?? null)
 const isRated = computed(() => props.show.rating !== null)
 const ratingLabel = computed(() => (isRated.value ? props.show.rating!.toFixed(1) : '—'))
+const genreLabel = computed(() => translateGenre(props.genre ?? ''))
 </script>
 
 <template>
   <RouterLink
     :to="{ name: RouteNames.DETAILS, params: { id: show.id } }"
     class="group border-border bg-surface focus-visible:outline-brand relative flex w-36 shrink-0 flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 sm:w-40"
-    :aria-label="t('dashboard.showCard.ariaLabel', { name: show.name, rating: ratingLabel, year: show.premieredYear })"
+    :aria-label="
+      t('dashboard.showCard.ariaLabel', {
+        name: show.name,
+        genre: genreLabel,
+        rating: ratingLabel,
+        year: show.premieredYear,
+      })
+    "
     data-testid="show-card"
   >
     <!-- Preview image -->

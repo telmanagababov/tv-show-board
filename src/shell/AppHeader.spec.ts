@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount, flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
+import { i18n } from '@/shared/i18n'
 import AppHeader from './AppHeader.vue'
 import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
 
@@ -128,7 +129,7 @@ describe('AppHeader', () => {
         { path: '/search', name: RouteNames.SEARCH, component: { template: '<div />' } },
       ],
     })
-    const view = mount(AppHeader, { global: { plugins: [router] } })
+    const view = mount(AppHeader, { global: { plugins: [router, i18n] } })
     await router.push(initialPath)
     return { view, router }
   }

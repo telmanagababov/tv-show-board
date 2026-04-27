@@ -2,11 +2,14 @@
   "title": "Browse by Genre",
   "subtitle": "Top-rated shows, grouped by what you love.",
   "empty": "No shows to display yet.",
+  "genreSection": {
+    "ariaLabel": "{genre} shows"
+  },
   "showList": {
     "empty": "No shows in this genre yet."
   },
   "showCard": {
-    "ariaLabel": "{name}, rated {rating}, released in {year}",
+    "ariaLabel": "{name}, {genre}, rated {rating}, released in {year}",
     "previewAlt": "{name} preview image"
   }
 }

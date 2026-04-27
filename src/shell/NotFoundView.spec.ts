@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createRouter, createMemoryHistory } from 'vue-router'
 
+import { i18n } from '@/shared/i18n'
+import { RouteNames } from '@/shared/constants/route-names'
 import NotFoundView from './NotFoundView.vue'
 
 describe('NotFoundView', () => {
@@ -13,8 +16,12 @@ describe('NotFoundView', () => {
   let view: VueWrapper<InstanceType<typeof NotFoundView>>
 
   beforeEach(() => {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [{ path: '/', name: RouteNames.DASHBOARD, component: { template: '<div />' } }],
+    })
     view = mount(NotFoundView, {
-      global: { stubs: { RouterLink: true } },
+      global: { plugins: [router, i18n] },
     })
   })
 

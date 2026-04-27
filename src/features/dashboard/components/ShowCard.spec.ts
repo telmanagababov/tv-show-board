@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
+import { i18n } from '@/shared/i18n'
 import ShowCard from './ShowCard.vue'
 import { RouteNames } from '@/shared/constants/route-names'
 import type { ShowSummary } from '@/shared/types/show'
@@ -63,14 +64,16 @@ describe('ShowCard', () => {
     expect(wrapper.find(locators.year).exists()).toBe(false)
   })
 
-  it('includes an accessible aria-label with the show name and rating', () => {
-    expect(wrapper.find(locators.card).attributes('aria-label')).toBe('Breaking Bad, rated 9.5')
+  it('includes an accessible aria-label with name, genre, rating and year', () => {
+    expect(wrapper.find(locators.card).attributes('aria-label')).toBe(
+      'Breaking Bad, Drama, rated 9.5, released in 2008',
+    )
   })
 
   it('shows "rated —" in the aria-label when there is no rating', () => {
     wrapper = mountCard(makeShow({ name: 'Some Show', rating: null }))
 
-    expect(wrapper.find(locators.card).attributes('aria-label')).toBe('Some Show, rated —')
+    expect(wrapper.find(locators.card).attributes('aria-label')).toBe('Some Show, Drama, rated —, released in 2008')
   })
 
   function makeShow(overrides: Partial<ShowSummary> = {}): ShowSummary {
@@ -90,7 +93,7 @@ describe('ShowCard', () => {
     }
   }
 
-  function mountCard(show: ShowSummary) {
+  function mountCard(show: ShowSummary, genre = 'Drama') {
     const router = createRouter({
       history: createMemoryHistory(),
       routes: [
@@ -99,8 +102,8 @@ describe('ShowCard', () => {
       ],
     })
     return mount(ShowCard, {
-      props: { show },
-      global: { plugins: [router] },
+      props: { show, genre },
+      global: { plugins: [router, i18n] },
     })
   }
 })
