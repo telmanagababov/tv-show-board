@@ -9,6 +9,7 @@ type ErrorsMessages = typeof import('./shared/i18n/messages/en/errors.json')
 type ShellMessages = typeof import('./shell/i18n/en.json')
 type DashboardMessages = typeof import('./features/dashboard/i18n/en.json')
 type DetailsMessages = typeof import('./features/details/i18n/en.json')
+type PersonMessages = typeof import('./features/person/i18n/en.json')
 type SearchMessages = typeof import('./features/search/i18n/en.json')
 /* eslint-enable @typescript-eslint/consistent-type-imports */
 
@@ -18,6 +19,7 @@ interface AppMessages {
   shell: ShellMessages
   dashboard: DashboardMessages
   details: DetailsMessages
+  person: PersonMessages
   search: SearchMessages
 }
 

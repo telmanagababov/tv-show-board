@@ -6,7 +6,13 @@
  */
 
 import { ApiError } from './tvmaze-errors'
-import type { TvMazeShow, TvMazeShowWithEmbeds, TvMazeSearchResult } from './tvmaze-types'
+import type {
+  TvMazeCastCredit,
+  TvMazePerson,
+  TvMazeShowWithEmbeds,
+  TvMazeSearchResult,
+  TvMazeShow,
+} from './tvmaze-types'
 
 const BASE_URL = 'https://api.tvmaze.com'
 
@@ -34,6 +40,21 @@ export function getShowWithDetails(id: number): Promise<TvMazeShowWithEmbeds> {
  */
 export function searchShows(query: string): Promise<TvMazeSearchResult[]> {
   return tvmazeRequest<TvMazeSearchResult[]>('/search/shows', { q: query })
+}
+
+/**
+ * Fetch a single person by ID.
+ */
+export function getPerson(id: number): Promise<TvMazePerson> {
+  return tvmazeRequest<TvMazePerson>(`/people/${id}`)
+}
+
+/**
+ * Fetch all cast credits for a person.
+ * Each credit embeds the full show when `?embed=show` is used.
+ */
+export function getPersonCastCredits(id: number): Promise<TvMazeCastCredit[]> {
+  return tvmazeRequest<TvMazeCastCredit[]>(`/people/${id}/castcredits`, { embed: 'show' })
 }
 
 /**

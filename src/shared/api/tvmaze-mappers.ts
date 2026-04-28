@@ -7,13 +7,16 @@
  */
 
 import type {
+  TvMazeCastCredit,
   TvMazeCastMember,
+  TvMazePerson,
   TvMazeShow,
   TvMazeShowImage,
   TvMazeShowStatus,
   TvMazeShowWithEmbeds,
 } from './tvmaze-types'
 import type { CastMember, ShowDetails, ShowGalleryImage, ShowImage, ShowStatus, ShowSummary } from '@/shared/types/show'
+import type { PersonDetails } from '@/shared/types/person'
 import { stripHtml } from '@/shared/utils/strip-html'
 
 export function mapShowSummary(api: TvMazeShow): ShowSummary {
@@ -81,6 +84,21 @@ function mapCastMember(member: TvMazeCastMember): CastMember {
     characterName: member.character.name,
     voice: member.voice,
     self: member.self,
+  }
+}
+
+export function mapPersonDetails(person: TvMazePerson, credits: TvMazeCastCredit[]): PersonDetails {
+  return {
+    id: person.id,
+    name: person.name,
+    image: mapImage(person.image),
+    birthday: person.birthday,
+    deathday: person.deathday,
+    gender: person.gender,
+    country: person.country?.name ?? null,
+    showCredits: credits
+      .filter((c): c is TvMazeCastCredit & { _embedded: { show: TvMazeShow } } => c._embedded?.show != null)
+      .map((c) => mapShowSummary(c._embedded.show)),
   }
 }
 

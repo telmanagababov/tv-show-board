@@ -107,7 +107,7 @@ function clearSearch(): void {
 
       <!-- GitHub link -->
       <a
-        href="https://github.com"
+        href="https://github.com/telmanagababov/tv-show-board"
         target="_blank"
         rel="noopener noreferrer"
         class="flex size-9 shrink-0 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"

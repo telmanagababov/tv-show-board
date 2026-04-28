@@ -30,17 +30,24 @@ describe('ShowList', () => {
     expect(wrapper.findAll(locators.card)).toHaveLength(3)
   })
 
-  it('shows the empty state and hides the list when shows is empty', () => {
-    wrapper = mountList([])
+  it('shows the empty state when shows is empty and emptyText is provided', () => {
+    wrapper = mountList([], 'No shows available.')
 
     expect(wrapper.find(locators.list).exists()).toBe(false)
     expect(wrapper.find(locators.empty).exists()).toBe(true)
   })
 
-  it('shows a translated empty message', () => {
+  it('renders the emptyText prop content', () => {
+    wrapper = mountList([], 'No shows available.')
+
+    expect(wrapper.find(locators.empty).text()).toBe('No shows available.')
+  })
+
+  it('hides the empty state when shows is empty but no emptyText is provided', () => {
     wrapper = mountList([])
 
-    expect(wrapper.find(locators.empty).text()).toBe('dashboard.showList.empty')
+    expect(wrapper.find(locators.list).exists()).toBe(false)
+    expect(wrapper.find(locators.empty).exists()).toBe(false)
   })
 
   function makeShow(id: number): ShowSummary {
@@ -63,7 +70,7 @@ describe('ShowList', () => {
     return Array.from({ length: count }, (_, i) => makeShow(i + 1))
   }
 
-  function mountList(shows: ShowSummary[]) {
+  function mountList(shows: ShowSummary[], emptyText?: string) {
     const router = createRouter({
       history: createMemoryHistory(),
       routes: [
@@ -71,14 +78,9 @@ describe('ShowList', () => {
         { path: '/details/:id', name: RouteNames.DETAILS, component: { template: '<div />' } },
       ],
     })
-    const i18n = createI18n({
-      legacy: false,
-      locale: 'en',
-      missingWarn: false,
-      fallbackWarn: false,
-    })
+    const i18n = createI18n({ legacy: false, locale: 'en', missingWarn: false, fallbackWarn: false })
     return mount(ShowList, {
-      props: { shows },
+      props: { shows, emptyText },
       global: { plugins: [router, i18n] },
     })
   }

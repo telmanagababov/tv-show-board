@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { getShows, getShowWithDetails, searchShows } from './tvmaze-api'
+import { getPerson, getPersonCastCredits, getShows, getShowWithDetails, searchShows } from './tvmaze-api'
 import { ApiError } from './tvmaze-errors'
 
 describe('TVMaze API', () => {
@@ -72,6 +72,30 @@ describe('TVMaze API', () => {
       const result = await searchShows('show')
 
       expect(result).toEqual(fakeResults)
+    })
+  })
+
+  describe('getPerson', () => {
+    it('fetches the person by ID from the correct URL', async () => {
+      const fakePerson = { id: 1, name: 'Person Name' }
+      fetchMock.mockResolvedValueOnce(mockJsonResponse(fakePerson))
+
+      const result = await getPerson(1)
+
+      expect(getFetchedUrl(fetchMock)).toBe('https://api.tvmaze.com/people/1')
+      expect(result).toEqual(fakePerson)
+    })
+  })
+
+  describe('getPersonCastCredits', () => {
+    it('fetches credits with the show embedded', async () => {
+      const fakeCredits = [{ self: false, voice: false, _links: {} }]
+      fetchMock.mockResolvedValueOnce(mockJsonResponse(fakeCredits))
+
+      const result = await getPersonCastCredits(1)
+
+      expect(getFetchedUrl(fetchMock)).toBe('https://api.tvmaze.com/people/1/castcredits?embed=show')
+      expect(result).toEqual(fakeCredits)
     })
   })
 

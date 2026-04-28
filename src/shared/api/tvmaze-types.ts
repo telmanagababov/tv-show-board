@@ -178,6 +178,26 @@ export interface TvMazeCastMember {
 }
 
 // ---------------------------------------------------------------------------
+// Person cast credits (/people/:id/castcredits?embed=show)
+// ---------------------------------------------------------------------------
+
+/**
+ * One credit entry from `/people/:id/castcredits`.
+ * When fetched with `?embed=show`, `_embedded.show` is populated.
+ */
+export interface TvMazeCastCredit {
+  self: boolean
+  voice: boolean
+  _links: {
+    show: { href: string }
+    character: { href: string }
+  }
+  _embedded?: {
+    show: TvMazeShow
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Embedded resources (?embed[]=cast&embed[]=images)
 // ---------------------------------------------------------------------------
 

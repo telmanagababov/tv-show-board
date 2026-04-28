@@ -4,6 +4,7 @@
 export const RouteNames = {
   DASHBOARD: 'dashboard',
   DETAILS: 'details',
+  PERSON: 'person',
   SEARCH: 'search',
   NOT_FOUND: 'not-found',
 } as const

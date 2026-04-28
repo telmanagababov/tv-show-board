@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
-import { mapShowDetails, mapShowSummary, mapStatus } from './tvmaze-mappers'
-import type { TvMazeCastMember, TvMazeShow, TvMazeShowImage, TvMazeShowWithEmbeds } from './tvmaze-types'
+import { mapPersonDetails, mapShowDetails, mapShowSummary, mapStatus } from './tvmaze-mappers'
+import type {
+  TvMazeCastCredit,
+  TvMazeCastMember,
+  TvMazePerson,
+  TvMazeShow,
+  TvMazeShowImage,
+  TvMazeShowWithEmbeds,
+} from './tvmaze-types'
 
 describe('tvmaze mappers', () => {
   describe('mapShowSummary', () => {
@@ -90,10 +97,10 @@ describe('tvmaze mappers', () => {
       expect(show.cast).toEqual([
         {
           personId: 100,
-          personName: 'Bryan Cranston',
+          personName: 'Person Name',
           personImage: { medium: 'p-med.jpg', original: 'p-orig.jpg' },
           characterId: 200,
-          characterName: 'Walter White',
+          characterName: 'Character Name',
           voice: false,
           self: false,
         },
@@ -122,6 +129,52 @@ describe('tvmaze mappers', () => {
       const show = mapShowDetails(api)
 
       expect(show.schedule.days).not.toBe(api.schedule.days)
+    })
+  })
+
+  describe('mapPersonDetails', () => {
+    it('maps core person fields', () => {
+      const person = makeTvMazePerson()
+      const result = mapPersonDetails(person, [])
+
+      expect(result.id).toBe(99)
+      expect(result.name).toBe('Person Name')
+      expect(result.birthday).toBe('1956-03-07')
+      expect(result.deathday).toBeNull()
+      expect(result.gender).toBe('Male')
+      expect(result.country).toBe('United States of America')
+      expect(result.image).toEqual({ medium: 'p-med.jpg', original: 'p-orig.jpg' })
+    })
+
+    it('maps show credits from embedded shows', () => {
+      const result = mapPersonDetails(makeTvMazePerson(), [makeCastCredit()])
+
+      expect(result.showCredits).toHaveLength(1)
+      expect(result.showCredits[0]!.id).toBe(1)
+      expect(result.showCredits[0]!.name).toBe('Breaking Bad')
+    })
+
+    it('filters out credits whose embedded show is missing', () => {
+      const creditWithoutShow: TvMazeCastCredit = {
+        self: false,
+        voice: false,
+        _links: { show: { href: '' }, character: { href: '' } },
+      }
+      const result = mapPersonDetails(makeTvMazePerson(), [creditWithoutShow, makeCastCredit()])
+
+      expect(result.showCredits).toHaveLength(1)
+    })
+
+    it('returns null image when the person has no photo', () => {
+      const result = mapPersonDetails(makeTvMazePerson({ image: null }), [])
+
+      expect(result.image).toBeNull()
+    })
+
+    it('returns null country when the person has no country', () => {
+      const result = mapPersonDetails(makeTvMazePerson({ country: null }), [])
+
+      expect(result.country).toBeNull()
     })
   })
 
@@ -175,7 +228,7 @@ function makeCastMember(): TvMazeCastMember {
     person: {
       id: 100,
       url: '',
-      name: 'Bryan Cranston',
+      name: 'Person Name',
       country: null,
       birthday: null,
       deathday: null,
@@ -187,7 +240,7 @@ function makeCastMember(): TvMazeCastMember {
     character: {
       id: 200,
       url: '',
-      name: 'Walter White',
+      name: 'Character Name',
       image: null,
       _links: { self: { href: '' } },
     },
@@ -205,5 +258,30 @@ function makeShowImage(): TvMazeShowImage {
       original: { url: 'orig.jpg', width: 1000, height: 1500 },
       medium: { url: 'med.jpg', width: 200, height: 300 },
     },
+  }
+}
+
+function makeTvMazePerson(overrides: Partial<TvMazePerson> = {}): TvMazePerson {
+  return {
+    id: 99,
+    url: 'https://www.tvmaze.com/people/99/person-name',
+    name: 'Person Name',
+    country: { name: 'United States of America', code: 'US', timezone: 'America/New_York' },
+    birthday: '1956-03-07',
+    deathday: null,
+    gender: 'Male',
+    image: { medium: 'p-med.jpg', original: 'p-orig.jpg' },
+    updated: 0,
+    _links: { self: { href: '' } },
+    ...overrides,
+  }
+}
+
+function makeCastCredit(): TvMazeCastCredit {
+  return {
+    self: false,
+    voice: false,
+    _links: { show: { href: '' }, character: { href: '' } },
+    _embedded: { show: makeTvMazeShow() },
   }
 }

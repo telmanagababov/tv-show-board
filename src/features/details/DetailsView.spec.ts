@@ -14,7 +14,7 @@ vi.mock('./stores/show-detail.store', () => ({
 
 describe('DetailsView', () => {
   const locators = {
-    back: '[data-testid="details-back"]',
+    back: '[data-testid="back-button"]',
     loading: '[data-testid="details-loading"]',
     error: '[data-testid="details-error"]',
     errorMessage: '[data-testid="error-state-message"]',
@@ -59,8 +59,6 @@ describe('DetailsView', () => {
     })
   })
 
-  // ── error state ────────────────────────────────────────────────────────────
-
   describe('error state', () => {
     it('shows the error block when the store has an error', () => {
       view = mountView(makeStore({ error: 'errors.network' }))
@@ -82,12 +80,9 @@ describe('DetailsView', () => {
       const store = makeStore({ error: 'errors.network' })
       view = mountView(store)
       await view.find(locators.retryButton).trigger('click')
-      // 1st call: immediate watcher on mount; 2nd call: retry button
       expect(store.fetchDetails).toHaveBeenCalledTimes(2)
     })
   })
-
-  // ── show content ───────────────────────────────────────────────────────────
 
   describe('show content', () => {
     it('renders the show title', () => {
@@ -221,13 +216,13 @@ describe('DetailsView', () => {
     cast: [
       {
         personId: 1,
-        personName: 'Bryan Cranston',
+        personName: 'Person Name ',
         personImage: {
           medium: 'https://example.com/bc-med.jpg',
           original: 'https://example.com/bc.jpg',
         },
         characterId: 10,
-        characterName: 'Walter White',
+        characterName: 'Character Name',
         voice: false,
         self: false,
       },
@@ -266,6 +261,7 @@ describe('DetailsView', () => {
           props: true,
           component: DetailsView,
         },
+        { path: '/people/:id', name: RouteNames.PERSON, component: { template: '<div />' } },
       ],
     })
 

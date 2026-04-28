@@ -16,6 +16,12 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/people/:id',
+      name: RouteNames.PERSON,
+      component: () => import('@/features/person/PersonView.vue'),
+      props: true,
+    },
+    {
       path: '/search',
       name: RouteNames.SEARCH,
       component: () => import('@/features/search/SearchView.vue'),

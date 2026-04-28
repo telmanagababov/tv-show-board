@@ -1,0 +1,9 @@
+{
+  "birthday": "Birthday",
+  "deathday": "Passed away",
+  "gender": "Gender",
+  "country": "Country",
+  "credits": "Known for",
+  "creditsAriaLabel": "Shows featuring {name}",
+  "noCredits": "No show credits available."
+}

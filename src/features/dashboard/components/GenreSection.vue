@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import '../i18n'
 import type { ShowSummary } from '@/shared/types/show'
 import { useGenreLabel } from '@/shared/composables/useGenreLabel'
-import ShowList from './ShowList.vue'
+import ShowList from '@/shared/components/ShowList.vue'
 
 const props = defineProps<{
   genre: string
@@ -25,6 +25,14 @@ const ariaLabel = computed(() => t('dashboard.genreSection.ariaLabel', { genre: 
       {{ genre }}
     </h2>
 
-    <ShowList :shows="shows" :label="ariaLabel" :genre="genre" :show-sentinel="showSentinel" />
+    <ShowList
+      :shows="shows"
+      :label="ariaLabel"
+      :genre="genre"
+      :show-sentinel="showSentinel"
+      :empty-text="t('dashboard.showList.empty')"
+      :sentinel-heading="t('dashboard.showSentinel.heading')"
+      :sentinel-hint="t('dashboard.showSentinel.hint')"
+    />
   </section>
 </template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, onUnmounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import './i18n'
 
 import { useShowDetailsStore } from './stores/show-detail.store'
+import BackButton from '@/shared/components/BackButton.vue'
 import LoadingIndicator from '@/shared/components/LoadingIndicator.vue'
 import ErrorState from '@/shared/components/ErrorState.vue'
 import ShowPoster from './components/ShowPoster.vue'
@@ -13,7 +13,6 @@ import ShowSummary from './components/ShowSummary.vue'
 import ShowCast from './components/ShowCast.vue'
 
 const { t } = useI18n()
-const router = useRouter()
 const store = useShowDetailsStore()
 const props = defineProps<{ id: string }>()
 const details = computed(() => store.details)
@@ -36,14 +35,7 @@ onUnmounted(() => store.clearDetails())
   <div class="bg-bg text-fg min-h-screen">
     <!-- Back button -->
     <div class="mx-auto max-w-5xl px-6 pt-6">
-      <a
-        class="text-brand hover:text-brand-hover w-fit text-sm font-medium underline-offset-4 hover:underline"
-        data-testid="details-back"
-        href="#"
-        @click.prevent="router.back()"
-      >
-        ← {{ t('details.back') }}
-      </a>
+      <BackButton />
     </div>
 
     <!-- Loading state -->

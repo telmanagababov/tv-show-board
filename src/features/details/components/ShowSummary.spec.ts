@@ -29,7 +29,7 @@ describe('ShowSummary', () => {
   })
 
   it('strips script tags via DOMPurify (XSS prevention)', () => {
-    const wrapper = mountSummary('<p>Safe content</p><script>alert("xss")<\/script>')
+    const wrapper = mountSummary('<p>Safe content</p><script>alert("XSS")</script>')
     expect(wrapper.find(locators.content).html()).not.toContain('<script>')
     expect(wrapper.find(locators.content).html()).toContain('Safe content')
   })

@@ -2,15 +2,23 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('./tvmaze-api')
 
-import { getShowDetails, getShows, searchShows } from './shows-api'
+import { getPersonDetails, getShowDetails, getShows, searchShows } from './shows-api'
 import * as tvmazeApi from './tvmaze-api'
-import type { TvMazeSearchResult, TvMazeShow, TvMazeShowWithEmbeds } from './tvmaze-types'
+import type {
+  TvMazeCastCredit,
+  TvMazePerson,
+  TvMazeSearchResult,
+  TvMazeShow,
+  TvMazeShowWithEmbeds,
+} from './tvmaze-types'
 
 describe('shows-api (façade)', () => {
   beforeEach(() => {
     vi.mocked(tvmazeApi.getShows).mockReset()
     vi.mocked(tvmazeApi.getShowWithDetails).mockReset()
     vi.mocked(tvmazeApi.searchShows).mockReset()
+    vi.mocked(tvmazeApi.getPerson).mockReset()
+    vi.mocked(tvmazeApi.getPersonCastCredits).mockReset()
   })
 
   describe('getShows', () => {
@@ -71,7 +79,65 @@ describe('shows-api (façade)', () => {
       expect(result[0]).not.toHaveProperty('score')
     })
   })
+
+  describe('getPersonDetails', () => {
+    it('fetches person and credits in parallel and maps to PersonDetails', async () => {
+      vi.mocked(tvmazeApi.getPerson).mockResolvedValueOnce(makeRawPerson({ id: 99 }))
+      vi.mocked(tvmazeApi.getPersonCastCredits).mockResolvedValueOnce([makeRawCastCredit()])
+
+      const result = await getPersonDetails(99)
+
+      expect(tvmazeApi.getPerson).toHaveBeenCalledWith(99)
+      expect(tvmazeApi.getPersonCastCredits).toHaveBeenCalledWith(99)
+      expect(result.id).toBe(99)
+      expect(result.showCredits).toHaveLength(1)
+    })
+
+    it('returns an empty showCredits array when the person has no credits', async () => {
+      vi.mocked(tvmazeApi.getPerson).mockResolvedValueOnce(makeRawPerson())
+      vi.mocked(tvmazeApi.getPersonCastCredits).mockResolvedValueOnce([])
+
+      const result = await getPersonDetails(1)
+
+      expect(result.showCredits).toEqual([])
+    })
+
+    it('does not expose raw TvMaze fields', async () => {
+      vi.mocked(tvmazeApi.getPerson).mockResolvedValueOnce(makeRawPerson())
+      vi.mocked(tvmazeApi.getPersonCastCredits).mockResolvedValueOnce([])
+
+      const result = await getPersonDetails(1)
+
+      expect(result).not.toHaveProperty('_links')
+      expect(result).not.toHaveProperty('updated')
+    })
+  })
 })
+
+function makeRawPerson(overrides: Partial<TvMazePerson> = {}): TvMazePerson {
+  return {
+    id: 1,
+    url: '',
+    name: 'Person',
+    country: null,
+    birthday: null,
+    deathday: null,
+    gender: null,
+    image: null,
+    updated: 0,
+    _links: { self: { href: '' } },
+    ...overrides,
+  }
+}
+
+function makeRawCastCredit(showOverrides: Partial<TvMazeShow> = {}): TvMazeCastCredit {
+  return {
+    self: false,
+    voice: false,
+    _links: { show: { href: '' }, character: { href: '' } },
+    _embedded: { show: makeRawShow(showOverrides) },
+  }
+}
 
 function makeRawShow(overrides: Partial<TvMazeShow> = {}): TvMazeShow {
   return {
