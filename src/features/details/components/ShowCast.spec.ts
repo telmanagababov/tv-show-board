@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
-import '../i18n'
 import { i18n } from '@/shared/i18n'
 import ShowCast from './ShowCast.vue'
 import { RouteNames } from '@/shared/constants'

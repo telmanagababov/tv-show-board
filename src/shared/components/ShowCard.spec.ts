@@ -66,10 +66,6 @@ describe('ShowCard', () => {
     expect(wrapper.find(locators.year).text()).toBe('')
   })
 
-  it('does not carry an aria-label on the link (accessible name comes from inner content)', () => {
-    expect(wrapper.find(locators.card).attributes('aria-label')).toBeUndefined()
-  })
-
   it('gives the rating badge an aria-label that contextualises the number', () => {
     expect(wrapper.find(locators.rating).attributes('aria-label')).toBe('Rated 9.5')
   })

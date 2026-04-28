@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '@/shared/stores'
 import { IconSun, IconMoon } from '@/shared/icons'
-import './i18n'
 
 const { t } = useI18n()
 const store = useThemeStore()

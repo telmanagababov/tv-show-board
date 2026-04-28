@@ -7,12 +7,12 @@ const router = useRouter()
 </script>
 
 <template>
-  <a
-    class="text-brand hover:text-brand-hover w-fit text-sm font-medium underline-offset-4 hover:underline"
+  <button
+    type="button"
+    class="text-brand hover:text-brand-hover focus-visible:outline-brand w-fit cursor-pointer text-sm font-medium underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-2"
     data-testid="back-button"
-    href="#"
-    @click.prevent="router.back()"
+    @click="router.back()"
   >
     ← {{ t('common.back') }}
-  </a>
+  </button>
 </template>

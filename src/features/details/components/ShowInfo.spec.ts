@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import '../i18n'
 import { i18n } from '@/shared/i18n'
 import ShowInfo from './ShowInfo.vue'
 import type { ShowDetails } from '@/shared/types'

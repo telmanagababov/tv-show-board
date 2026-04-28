@@ -6,7 +6,6 @@ import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants'
 import LogoBadge from '@/shell/LogoBadge.vue'
 import { IconSearch, IconClose, IconGitHub } from '@/shared/icons'
 import ThemeToggle from '@/shell/ThemeToggle.vue'
-import './i18n'
 
 const { t } = useI18n()
 const router = useRouter()

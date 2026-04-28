@@ -35,7 +35,7 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
       <img
         v-if="previewImage"
         :src="previewImage"
-        :alt="t('common.showCard.previewAlt', { name: show.name })"
+        alt=""
         class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
         data-testid="show-card-preview-image"

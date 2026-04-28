@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import './i18n'
 
 import { usePersonStore } from './stores/person.store'
 import { BackButton, LoadingIndicator, ErrorState, ShowList } from '@/shared/components'

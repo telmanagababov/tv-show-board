@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import '../i18n'
 import type { ShowSummary } from '@/shared/types'
 import { useGenreLabel } from '@/shared/composables'
 import { ShowList } from '@/shared/components'

@@ -4,6 +4,7 @@ import pluginVue from 'eslint-plugin-vue'
 import pluginPlaywright from 'eslint-plugin-playwright'
 import pluginVitest from '@vitest/eslint-plugin'
 import pluginOxlint from 'eslint-plugin-oxlint'
+import pluginVueI18n from '@intlify/eslint-plugin-vue-i18n'
 import skipFormatting from 'eslint-config-prettier/flat'
 
 export default defineConfigWithVueTs(
@@ -52,6 +53,30 @@ export default defineConfigWithVueTs(
       'vue/no-unused-refs': 'error',
       'vue/no-useless-v-bind': 'error',
       'vue/prefer-true-attribute-shorthand': 'error',
+    },
+  },
+
+  // ── i18n key safety ───────────────────────────────────────────────────────
+  {
+    name: 'app/i18n',
+    files: ['src/**/*.{vue,ts}'],
+    plugins: {
+      '@intlify/vue-i18n': pluginVueI18n,
+    },
+    settings: {
+      'vue-i18n': {
+        localeDir: {
+          pattern: 'src/locales/en.json',
+          localeKey: 'file',
+        },
+        messageSyntaxVersion: '^11.0.0',
+      },
+    },
+    rules: {
+      '@intlify/vue-i18n/no-missing-keys': 'error',
+      '@intlify/vue-i18n/no-deprecated-i18n-component': 'error',
+      '@intlify/vue-i18n/no-deprecated-v-t': 'error',
+      '@intlify/vue-i18n/no-v-html': 'error',
     },
   },
 

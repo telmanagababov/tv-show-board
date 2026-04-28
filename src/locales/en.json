@@ -1,0 +1,122 @@
+{
+  "app": {
+    "skipLinks": {
+      "mainContent": "Skip to main content",
+      "loadMoreAction": "Skip to load more action"
+    }
+  },
+  "shell": {
+    "header": {
+      "logoAriaLabel": "TV Board — home",
+      "searchLabel": "Search TV shows",
+      "searchPlaceholder": "Search shows…",
+      "clearSearchAriaLabel": "Clear search",
+      "switchToDark": "Switch to dark mode",
+      "switchToLight": "Switch to light mode",
+      "githubAriaLabel": "View source on GitHub"
+    },
+    "notFound": {
+      "heading": "404",
+      "message": "This page doesn't exist.",
+      "backLink": "Back to dashboard"
+    }
+  },
+  "dashboard": {
+    "title": "Top-rated shows",
+    "empty": "No shows to display yet.",
+    "loadMore": "Load more shows",
+    "showSentinel": {
+      "heading": "More shows",
+      "hint": "Use load more action below"
+    },
+    "genreSection": {
+      "ariaLabel": "{genre} shows"
+    },
+    "showList": {
+      "empty": "No shows in this genre yet."
+    }
+  },
+  "details": {
+    "summary": "Summary",
+    "cast": "Cast",
+    "premiered": "Premiered",
+    "genres": "Genres",
+    "network": "Network",
+    "schedule": "Schedule",
+    "language": "Language",
+    "rating": "Rating",
+    "officialSite": "Official Site",
+    "visitSite": "Visit site",
+    "noSummary": "No summary available.",
+    "noCast": "No cast information available.",
+    "statusRunning": "Running",
+    "statusEnded": "Ended",
+    "statusUpcoming": "Upcoming",
+    "scheduleAt": "{days} at {time}"
+  },
+  "person": {
+    "birthday": "Birthday",
+    "deathday": "Passed away",
+    "gender": "Gender",
+    "country": "Country",
+    "credits": "Known for",
+    "creditsAriaLabel": "Shows featuring {name}",
+    "noCredits": "No show credits available."
+  },
+  "search": {
+    "placeholder": "Search shows…",
+    "resultsFor": "Results for \"{query}\"",
+    "resultCount": "1 show found | {n} shows found",
+    "noResults": "No shows match \"{query}\".",
+    "loading": "Searching…"
+  },
+  "common": {
+    "appName": "TV Show Board",
+    "back": "Back",
+    "loading": "Loading…",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search",
+    "showCard": {
+      "ratedAriaLabel": "Rated {rating}",
+      "notRatedAriaLabel": "Not rated"
+    },
+    "genres": {
+      "action": "Action",
+      "adult": "Adult",
+      "adventure": "Adventure",
+      "anime": "Anime",
+      "children": "Children",
+      "comedy": "Comedy",
+      "crime": "Crime",
+      "diy": "DIY",
+      "drama": "Drama",
+      "espionage": "Espionage",
+      "family": "Family",
+      "fantasy": "Fantasy",
+      "food": "Food",
+      "history": "History",
+      "horror": "Horror",
+      "legal": "Legal",
+      "medical": "Medical",
+      "music": "Music",
+      "mystery": "Mystery",
+      "nature": "Nature",
+      "romance": "Romance",
+      "science-fiction": "Science Fiction",
+      "sports": "Sports",
+      "supernatural": "Supernatural",
+      "thriller": "Thriller",
+      "travel": "Travel",
+      "war": "War",
+      "western": "Western"
+    }
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "We couldn't reach the server. Check your connection and retry.",
+    "notFound": "We couldn't find what you were looking for.",
+    "pageNotFound": "Page not found"
+  }
+}

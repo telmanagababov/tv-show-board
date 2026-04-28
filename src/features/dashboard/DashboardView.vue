@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import './i18n'
 
 import { useShowsStore } from './stores/shows.store'
 import GenreSection from './components/GenreSection.vue'
 import { ErrorState, EmptyState, LoadingIndicator } from '@/shared/components'
+import { DomIds } from '@/shared/constants'
 
 const { t } = useI18n()
 const store = useShowsStore()
 
+/**
+ * Fetch the shows when the view mounts.
+ */
 onMounted(() => store.fetchShows())
 </script>
 
@@ -62,7 +65,8 @@ onMounted(() => store.fetchShows())
       </div>
       <button
         v-else
-        class="bg-brand hover:bg-brand-hover h-9 rounded px-6 text-sm font-semibold text-white transition-colors duration-200"
+        :id="DomIds.LOAD_MORE_ACTION"
+        class="bg-brand hover:bg-brand-hover h-9 rounded px-6 text-sm font-semibold text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-white"
         data-testid="dashboard-load-more"
         @click="store.fetchMoreShows()"
       >
