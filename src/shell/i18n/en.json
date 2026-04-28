@@ -3,7 +3,10 @@
     "logoAriaLabel": "TV Board — home",
     "searchLabel": "Search TV shows",
     "searchPlaceholder": "Search shows…",
-    "clearSearchAriaLabel": "Clear search"
+    "clearSearchAriaLabel": "Clear search",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode",
+    "githubAriaLabel": "View source on GitHub"
   },
   "notFound": {
     "heading": "404",

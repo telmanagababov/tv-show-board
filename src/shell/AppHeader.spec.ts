@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount, flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
+import { createPinia } from 'pinia'
 
 import { i18n } from '@/shared/i18n'
 import AppHeader from './AppHeader.vue'
@@ -13,15 +14,24 @@ describe('AppHeader', () => {
     searchForm: '[data-testid="search-form"]',
     searchInput: '[data-testid="search-input"]',
     clearBtn: '[data-testid="search-clear-btn"]',
+    githubLink: '[data-testid="github-link"]',
+    themeToggle: '[data-testid="theme-toggle"]',
   } as const
 
   let view: VueWrapper
   let router: ReturnType<typeof createRouter>
 
   beforeEach(async () => {
+    vi.stubGlobal('matchMedia', vi.fn().mockReturnValue({ matches: false }))
+    localStorage.clear()
+    document.documentElement.classList.remove('dark')
     const header = await mountHeader('/')
     view = header.view
     router = header.router
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
   })
 
   it('renders the header landmark', () => {
@@ -121,6 +131,18 @@ describe('AppHeader', () => {
     expect(view.find<HTMLInputElement>(locators.searchInput).element.value).toBe('')
   })
 
+  it('renders the GitHub link', () => {
+    expect(view.find(locators.githubLink).exists()).toBe(true)
+  })
+
+  it('opens the GitHub link in a new tab', () => {
+    expect(view.find(locators.githubLink).attributes('target')).toBe('_blank')
+  })
+
+  it('renders the theme toggle button', () => {
+    expect(view.find(locators.themeToggle).exists()).toBe(true)
+  })
+
   async function mountHeader(initialPath = '/') {
     const router = createRouter({
       history: createMemoryHistory(),
@@ -129,7 +151,7 @@ describe('AppHeader', () => {
         { path: '/search', name: RouteNames.SEARCH, component: { template: '<div />' } },
       ],
     })
-    const view = mount(AppHeader, { global: { plugins: [router, i18n] } })
+    const view = mount(AppHeader, { global: { plugins: [router, i18n, createPinia()] } })
     await router.push(initialPath)
     return { view, router }
   }

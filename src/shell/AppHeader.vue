@@ -6,6 +6,8 @@ import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
 import LogoBadge from '@/shell/LogoBadge.vue'
 import IconSearch from '@/shared/icons/IconSearch.vue'
 import IconClose from '@/shared/icons/IconClose.vue'
+import ThemeToggle from '@/shell/ThemeToggle.vue'
+import IconGitHub from '@/shared/icons/IconGitHub.vue'
 import './i18n'
 
 const { t } = useI18n()
@@ -54,7 +56,7 @@ function clearSearch(): void {
     role="banner"
     data-testid="app-header"
   >
-    <div class="flex h-14 max-w-7xl items-center gap-6 px-4 sm:px-6">
+    <div class="flex h-14 items-center gap-6 px-4 sm:px-6">
       <!-- Logo -->
       <RouterLink
         :to="{ name: RouteNames.DASHBOARD }"
@@ -99,6 +101,21 @@ function clearSearch(): void {
           </button>
         </div>
       </form>
+
+      <!-- Theme toggle -->
+      <ThemeToggle />
+
+      <!-- GitHub link -->
+      <a
+        href="https://github.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex size-9 shrink-0 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"
+        :aria-label="t('shell.header.githubAriaLabel')"
+        data-testid="github-link"
+      >
+        <IconGitHub class="size-5" />
+      </a>
     </div>
   </header>
 </template>
