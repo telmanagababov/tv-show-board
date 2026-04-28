@@ -3,7 +3,7 @@ import { computed, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useShowDetailsStore } from './stores/show-detail.store'
-import { BackButton, LoadingIndicator, ErrorState } from '@/shared/components'
+import { BackButton, EmptyState, LoadingIndicator, ErrorState } from '@/shared/components'
 import ShowPoster from './components/ShowPoster.vue'
 import ShowInfo from './components/ShowInfo.vue'
 import ShowSummary from './components/ShowSummary.vue'
@@ -42,8 +42,13 @@ onUnmounted(() => store.clearDetails())
       <ErrorState :message="t(store.error)" @retry="store.fetchDetails(Number(props.id))" />
     </div>
 
+    <!-- Empty state -->
+    <div v-else-if="!details" class="mx-auto max-w-5xl px-6 py-16" data-testid="details-empty">
+      <EmptyState :message="t('errors.notFound')" />
+    </div>
+
     <!-- Show details -->
-    <article v-else-if="details" class="mx-auto max-w-5xl px-6 py-8" data-testid="details-content">
+    <article v-else class="mx-auto max-w-5xl px-6 py-8" data-testid="details-content">
       <div class="flex flex-col gap-8 sm:flex-row sm:items-start">
         <div class="shrink-0 sm:w-52 md:w-64">
           <ShowPoster :image="details.image" :name="details.name" />

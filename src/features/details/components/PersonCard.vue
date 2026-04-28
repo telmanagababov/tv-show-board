@@ -21,6 +21,7 @@ defineProps<{ member: CastMember }>()
         :alt="member.personName"
         class="size-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
+        decoding="async"
         data-testid="person-card-photo"
       />
       <div

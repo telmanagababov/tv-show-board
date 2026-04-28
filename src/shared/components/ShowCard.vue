@@ -38,6 +38,7 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
         alt=""
         class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
+        decoding="async"
         data-testid="show-card-preview-image"
       />
       <!-- Preview image fallback -->

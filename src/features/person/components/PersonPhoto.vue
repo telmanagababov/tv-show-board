@@ -12,6 +12,7 @@ defineProps<{ image: ShowImage | null; name: string }>()
       :src="image.original"
       :alt="name"
       class="size-full object-cover object-top"
+      decoding="async"
       data-testid="person-photo"
     />
     <div

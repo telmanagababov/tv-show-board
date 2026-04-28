@@ -10,7 +10,14 @@ defineProps<{
 
 <template>
   <div class="bg-surface-hover aspect-2/3 w-full overflow-hidden rounded-xl shadow-md">
-    <img v-if="image" :src="image.original" :alt="name" class="size-full object-cover" data-testid="details-poster" />
+    <img
+      v-if="image"
+      :src="image.original"
+      :alt="name"
+      class="size-full object-cover"
+      decoding="async"
+      data-testid="details-poster"
+    />
     <div
       v-else
       class="text-fg-subtle flex size-full items-center justify-center"

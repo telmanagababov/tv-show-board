@@ -8,6 +8,7 @@ const router = createRouter({
       path: '/',
       name: RouteNames.DASHBOARD,
       component: () => import('@/features/dashboard/DashboardView.vue'),
+      meta: { keepAlive: true },
     },
     {
       path: '/details/:id',

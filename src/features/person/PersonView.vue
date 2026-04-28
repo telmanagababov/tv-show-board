@@ -3,7 +3,7 @@ import { computed, onUnmounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { usePersonStore } from './stores/person.store'
-import { BackButton, LoadingIndicator, ErrorState, ShowList } from '@/shared/components'
+import { BackButton, EmptyState, LoadingIndicator, ErrorState, ShowList } from '@/shared/components'
 import PersonPhoto from './components/PersonPhoto.vue'
 import PersonInfo from './components/PersonInfo.vue'
 
@@ -40,8 +40,13 @@ onUnmounted(() => store.clearPersonDetails())
       <ErrorState :message="t(store.error)" @retry="store.fetchPersonDetails(Number(props.id))" />
     </div>
 
+    <!-- Empty state -->
+    <div v-else-if="!person" class="mx-auto max-w-5xl px-6 py-16" data-testid="person-empty">
+      <EmptyState :message="t('errors.notFound')" />
+    </div>
+
     <!-- Person details -->
-    <article v-else-if="person" class="mx-auto max-w-5xl px-6 py-8" data-testid="person-content">
+    <article v-else class="mx-auto max-w-5xl px-6 py-8" data-testid="person-content">
       <!-- Header: photo + info -->
       <div class="flex flex-col gap-8 sm:flex-row sm:items-start">
         <div class="shrink-0 sm:w-40 md:w-48" data-testid="person-photo-wrapper">
