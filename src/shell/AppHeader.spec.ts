@@ -5,7 +5,7 @@ import { createPinia } from 'pinia'
 
 import { i18n } from '@/shared/i18n'
 import AppHeader from './AppHeader.vue'
-import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
+import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants'
 
 describe('AppHeader', () => {
   const locators = {

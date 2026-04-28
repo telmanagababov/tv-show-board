@@ -4,8 +4,8 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import PersonCard from './PersonCard.vue'
-import { RouteNames } from '@/shared/constants/route-names'
-import type { CastMember } from '@/shared/types/show'
+import { RouteNames } from '@/shared/constants'
+import type { CastMember } from '@/shared/types'
 
 describe('PersonCard', () => {
   const locators = {

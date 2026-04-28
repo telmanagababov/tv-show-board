@@ -3,8 +3,8 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
 import ShowList from './ShowList.vue'
-import { RouteNames } from '@/shared/constants/route-names'
-import type { ShowSummary } from '@/shared/types/show'
+import { RouteNames } from '@/shared/constants'
+import type { ShowSummary } from '@/shared/types'
 import { createI18n } from 'vue-i18n'
 
 describe('ShowList', () => {

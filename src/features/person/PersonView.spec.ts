@@ -4,9 +4,9 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import PersonView from './PersonView.vue'
-import { RouteNames } from '@/shared/constants/route-names'
+import { RouteNames } from '@/shared/constants'
 import { usePersonStore } from './stores/person.store'
-import type { PersonDetails } from '@/shared/types/person'
+import type { PersonDetails } from '@/shared/types'
 
 vi.mock('./stores/person.store', () => ({
   usePersonStore: vi.fn<() => ReturnType<typeof usePersonStore>>(),

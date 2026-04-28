@@ -4,9 +4,9 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import DetailsView from './DetailsView.vue'
-import { RouteNames } from '@/shared/constants/route-names'
+import { RouteNames } from '@/shared/constants'
 import { useShowDetailsStore } from './stores/show-detail.store'
-import type { ShowDetails } from '@/shared/types/show'
+import type { ShowDetails } from '@/shared/types'
 
 vi.mock('./stores/show-detail.store', () => ({
   useShowDetailsStore: vi.fn(),

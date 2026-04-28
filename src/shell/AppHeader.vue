@@ -2,12 +2,10 @@
 import { ref, watch } from 'vue'
 import { RouterLink, useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
+import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants'
 import LogoBadge from '@/shell/LogoBadge.vue'
-import IconSearch from '@/shared/icons/IconSearch.vue'
-import IconClose from '@/shared/icons/IconClose.vue'
+import { IconSearch, IconClose, IconGitHub } from '@/shared/icons'
 import ThemeToggle from '@/shell/ThemeToggle.vue'
-import IconGitHub from '@/shared/icons/IconGitHub.vue'
 import './i18n'
 
 const { t } = useI18n()

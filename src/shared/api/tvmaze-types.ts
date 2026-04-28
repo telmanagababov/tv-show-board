@@ -5,7 +5,7 @@
  * possible. They are the contract between the API service layer and consumers.
  */
 
-import type { LiteralUnion } from '@/shared/types/utility'
+import type { LiteralUnion } from '@/shared/types'
 
 // ---------------------------------------------------------------------------
 // Building blocks

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
-import type { ShowImage } from '@/shared/types/show'
+import { IconNoArtwork } from '@/shared/icons'
+import type { ShowImage } from '@/shared/types'
 
 defineProps<{ image: ShowImage | null; name: string }>()
 </script>

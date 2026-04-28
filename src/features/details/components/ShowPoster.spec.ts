@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import ShowPoster from './ShowPoster.vue'
-import type { ShowImage } from '@/shared/types/show'
+import type { ShowImage } from '@/shared/types'
 
 describe('ShowPoster', () => {
   const locators = {

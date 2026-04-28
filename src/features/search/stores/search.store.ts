@@ -9,10 +9,9 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { defineStore } from 'pinia'
-import { searchShows } from '@/shared/api/shows-api'
-import { toErrorKey } from '@/shared/utils/to-error-key'
-import { SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
-import type { ShowSummary } from '@/shared/types/show'
+import { searchShows, toErrorKey } from '@/shared/api'
+import { SEARCH_QUERY_KEY } from '@/shared/constants'
+import type { ShowSummary } from '@/shared/types'
 
 export const useSearchStore = defineStore('search', () => {
   const DEBOUNCE_MS = 300

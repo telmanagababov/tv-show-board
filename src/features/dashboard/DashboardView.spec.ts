@@ -4,8 +4,8 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import DashboardView from './DashboardView.vue'
-import { RouteNames } from '@/shared/constants/route-names'
-import type { ShowSummary } from '@/shared/types/show'
+import { RouteNames } from '@/shared/constants'
+import type { ShowSummary } from '@/shared/types'
 import { useShowsStore } from './stores/shows.store'
 
 vi.mock('./stores/shows.store', () => ({

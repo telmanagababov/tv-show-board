@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
-import '@/features/details/i18n'
+import '../i18n'
 import { i18n } from '@/shared/i18n'
 import ShowCast from './ShowCast.vue'
-import { RouteNames } from '@/shared/constants/route-names'
-import type { CastMember } from '@/shared/types/show'
+import { RouteNames } from '@/shared/constants'
+import type { CastMember } from '@/shared/types'
 
 describe('ShowCast', () => {
   const locators = {

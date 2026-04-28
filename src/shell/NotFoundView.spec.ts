@@ -3,7 +3,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
-import { RouteNames } from '@/shared/constants/route-names'
+import { RouteNames } from '@/shared/constants'
 import NotFoundView from './NotFoundView.vue'
 
 describe('NotFoundView', () => {

@@ -5,7 +5,7 @@
  * Returns raw `TvMaze*` shapes from `./tvmaze.types`.
  */
 
-import { ApiError } from './tvmaze-errors'
+import { ApiError } from './api-errors'
 import type {
   TvMazeCastCredit,
   TvMazePerson,

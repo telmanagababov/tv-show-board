@@ -2,8 +2,8 @@
  * Public API surface for show data — the app-facing façade.
  */
 
-import type { ShowDetails, ShowSummary } from '@/shared/types/show'
-import type { PersonDetails } from '@/shared/types/person'
+import type { ShowDetails, ShowSummary } from '@/shared/types'
+import type { PersonDetails } from '@/shared/types'
 
 import {
   getShows as tvMazeGetShows,

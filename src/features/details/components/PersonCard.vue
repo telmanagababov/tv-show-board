@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { RouteNames } from '@/shared/constants/route-names'
-import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
-import type { CastMember } from '@/shared/types/show'
+import { RouteNames } from '@/shared/constants'
+import { IconNoArtwork } from '@/shared/icons'
+import type { CastMember } from '@/shared/types'
 
 defineProps<{ member: CastMember }>()
 </script>

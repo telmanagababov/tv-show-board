@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import type { PersonDetails } from '@/shared/types/person'
+import type { PersonDetails } from '@/shared/types'
 
 const { t } = useI18n()
 

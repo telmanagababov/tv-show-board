@@ -2,12 +2,12 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { RouteNames } from '@/shared/constants/route-names'
-import type { ShowSummary } from '@/shared/types/show'
-import { useGenreLabel } from '@/shared/composables/useGenreLabel'
-import { formatRating } from '@/shared/utils/format-rating'
-import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
-import Tooltip from '@/shared/components/Tooltip.vue'
+import { RouteNames } from '@/shared/constants'
+import type { ShowSummary } from '@/shared/types'
+import { useGenreLabel } from '@/shared/composables'
+import { formatRating } from '@/shared/utils'
+import { IconNoArtwork } from '@/shared/icons'
+import Tooltip from './Tooltip.vue'
 
 const { t } = useI18n()
 const { translateGenre } = useGenreLabel()

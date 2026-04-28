@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import '../i18n'
-import type { ShowSummary } from '@/shared/types/show'
-import { useGenreLabel } from '@/shared/composables/useGenreLabel'
-import ShowList from '@/shared/components/ShowList.vue'
+import type { ShowSummary } from '@/shared/types'
+import { useGenreLabel } from '@/shared/composables'
+import { ShowList } from '@/shared/components'
 
 const props = defineProps<{
   genre: string

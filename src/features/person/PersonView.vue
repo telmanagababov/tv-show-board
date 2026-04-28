@@ -4,10 +4,7 @@ import { useI18n } from 'vue-i18n'
 import './i18n'
 
 import { usePersonStore } from './stores/person.store'
-import BackButton from '@/shared/components/BackButton.vue'
-import LoadingIndicator from '@/shared/components/LoadingIndicator.vue'
-import ErrorState from '@/shared/components/ErrorState.vue'
-import ShowList from '@/shared/components/ShowList.vue'
+import { BackButton, LoadingIndicator, ErrorState, ShowList } from '@/shared/components'
 import PersonPhoto from './components/PersonPhoto.vue'
 import PersonInfo from './components/PersonInfo.vue'
 

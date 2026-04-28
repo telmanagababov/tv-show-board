@@ -4,7 +4,7 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import BackButton from './BackButton.vue'
-import { RouteNames } from '@/shared/constants/route-names'
+import { RouteNames } from '@/shared/constants'
 
 describe('BackButton', () => {
   const locators = {

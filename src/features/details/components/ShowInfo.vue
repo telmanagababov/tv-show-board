@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { formatRating } from '@/shared/utils/format-rating'
+import { formatRating } from '@/shared/utils'
 import { localizeDay, localizeTime } from '../utils/format-schedule'
 import ShowStatusBadge from './ShowStatusBadge.vue'
-import type { ShowDetails } from '@/shared/types/show'
-import { useGenreLabel } from '@/shared/composables/useGenreLabel'
+import type { ShowDetails } from '@/shared/types'
+import { useGenreLabel } from '@/shared/composables'
 
 const { t, locale } = useI18n()
 const { translateGenre } = useGenreLabel()

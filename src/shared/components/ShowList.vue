@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ShowSummary } from '@/shared/types/show'
+import type { ShowSummary } from '@/shared/types'
 import ShowCard from './ShowCard.vue'
 
 defineProps<{

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getPerson, getPersonCastCredits, getShows, getShowWithDetails, searchShows } from './tvmaze-api'
-import { ApiError } from './tvmaze-errors'
+import { ApiError } from './api-errors'
 
 describe('TVMaze API', () => {
   const fetchMock = vi.fn<typeof fetch>()

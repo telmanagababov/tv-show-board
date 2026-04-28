@@ -9,10 +9,8 @@
 
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getShows } from '@/shared/api/shows-api'
-import { toErrorKey } from '@/shared/utils/to-error-key'
-import { ApiError } from '@/shared/api/tvmaze-errors'
-import type { ShowSummary } from '@/shared/types/show'
+import { getShows, toErrorKey, ApiError } from '@/shared/api'
+import type { ShowSummary } from '@/shared/types'
 
 export const useShowsStore = defineStore('shows', () => {
   /** How many pages to fetch in one load-more batch. */

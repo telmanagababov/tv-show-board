@@ -4,9 +4,9 @@ import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
 import SearchView from './SearchView.vue'
-import { RouteNames } from '@/shared/constants/route-names'
+import { RouteNames } from '@/shared/constants'
 import { useSearchStore } from './stores/search.store'
-import type { ShowSummary } from '@/shared/types/show'
+import type { ShowSummary } from '@/shared/types'
 
 vi.mock('./stores/search.store', () => ({
   useSearchStore: vi.fn(),

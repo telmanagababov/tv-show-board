@@ -9,9 +9,8 @@
 
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getPersonDetails } from '@/shared/api/shows-api'
-import { toErrorKey } from '@/shared/utils/to-error-key'
-import type { PersonDetails } from '@/shared/types/person'
+import { getPersonDetails, toErrorKey } from '@/shared/api'
+import type { PersonDetails } from '@/shared/types'
 
 export const usePersonStore = defineStore('person', () => {
   const person = ref<PersonDetails | null>(null)

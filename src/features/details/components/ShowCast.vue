@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import PersonCard from './PersonCard.vue'
-import type { CastMember } from '@/shared/types/show'
+import type { CastMember } from '@/shared/types'
 
 const { t } = useI18n()
 

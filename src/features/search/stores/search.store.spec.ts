@@ -5,12 +5,12 @@ import { createPinia } from 'pinia'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { useSearchStore } from './search.store'
-import { ApiError } from '@/shared/api/tvmaze-errors'
-import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants/route-names'
-import type { ShowSummary } from '@/shared/types/show'
-import { searchShows } from '@/shared/api/shows-api'
+import { ApiError, searchShows } from '@/shared/api'
+import { RouteNames, SEARCH_QUERY_KEY } from '@/shared/constants'
+import type { ShowSummary } from '@/shared/types'
 
-vi.mock('@/shared/api/shows-api', () => ({
+vi.mock('@/shared/api', async (importOriginal) => ({
+  ...(await importOriginal()),
   searchShows: vi.fn(),
 }))
 

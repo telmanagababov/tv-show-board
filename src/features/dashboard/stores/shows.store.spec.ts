@@ -2,11 +2,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 
 import { useShowsStore } from './shows.store'
-import { ApiError } from '@/shared/api/tvmaze-errors'
-import type { ShowSummary } from '@/shared/types/show'
-import { getShows } from '@/shared/api/shows-api'
+import { ApiError, getShows } from '@/shared/api'
+import type { ShowSummary } from '@/shared/types'
 
-vi.mock('@/shared/api/shows-api', () => ({
+vi.mock('@/shared/api', async (importOriginal) => ({
+  ...(await importOriginal()),
   getShows: vi.fn(),
 }))
 

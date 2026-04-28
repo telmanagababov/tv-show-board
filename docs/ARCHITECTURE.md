@@ -114,10 +114,16 @@ To keep the boundary meaningful:
 - `shared/services/` is reserved for local services that don't make
   network calls (theme, storage, analytics, ...).
 
-> The "façade-only" rule and the `shared/types/ ↛ shared/api/` rule are
-> enforced by convention today. Mechanizing them via ESLint
-> `no-restricted-imports` is tracked as **PLAN 4.8** (post-MVP). Until then,
-> reviewers and `ARCHITECTURE.md` are the enforcement.
+> The Level-1 dependency direction (`features → shared`, `shared` is a leaf,
+> features cannot reach the shell or each other) and the Level-2
+> components-and-utils purity (no imports from `api/` or `stores/`) are
+> mechanized via ESLint `no-restricted-imports` — see the
+> `app/dependency-direction` and `app/components-utils-purity` blocks in
+> `eslint.config.ts`. Violations fail in the editor and in CI.
+>
+> The "façade-only" rule (`tvmaze-*` files are folder-private) and the
+> `shared/types/ ↛ shared/api/` rule are not yet mechanized; they remain
+> enforced by convention and review.
 
 ### Naming Conventions
 

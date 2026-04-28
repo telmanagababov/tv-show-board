@@ -55,6 +55,123 @@ export default defineConfigWithVueTs(
     },
   },
 
+  // ── Architectural boundaries ──────────────────────────────────────────────
+
+  // Scope A — feature & shared components/utils (no api, no stores, no shell, no cross-feature)
+  {
+    name: 'app/components-utils-purity',
+    files: [
+      'src/features/*/components/**/*.{vue,ts}',
+      'src/features/*/utils/**/*.{vue,ts}',
+      'src/shared/components/**/*.{vue,ts}',
+      'src/shared/utils/**/*.{vue,ts}',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/shell', '@/shell/**'],
+              message: 'components/ and utils/ must not import from shell/. See docs/ARCHITECTURE.md',
+            },
+            {
+              group: ['@/features', '@/features/**'],
+              message:
+                'components/ and utils/ must not import across feature boundaries via the @/ alias. Use relative paths within your own feature. See docs/ARCHITECTURE.md',
+            },
+            {
+              group: ['@/shared/api', '@/shared/stores', '**/api/**', '**/stores/**'],
+              message:
+                'components/ and utils/ must remain pure — they cannot import from api/ or stores/. Pass data via props. See docs/ARCHITECTURE.md',
+            },
+            {
+              group: ['@/shared/*/*', '@/shared/*/**'],
+              message:
+                "Import from the shared folder's public index, not from internal files. Use '@/shared/X' instead of '@/shared/X/file'. See docs/ARCHITECTURE.md",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // Scope B — rest of features/ and shared/ (stores, views, i18n, composables…)
+  {
+    name: 'app/feature-shared-boundary',
+    files: ['src/features/**/*.{vue,ts}', 'src/shared/**/*.{vue,ts}'],
+    ignores: [
+      'src/features/*/components/**',
+      'src/features/*/utils/**',
+      'src/shared/components/**',
+      'src/shared/utils/**',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/shell', '@/shell/**'],
+              message:
+                'features/ and shared/ must not import from shell/ — shell is the app frame, used once. See docs/ARCHITECTURE.md',
+            },
+            {
+              group: ['@/features', '@/features/**'],
+              message:
+                'features must not import from other features via the @/ alias; shared/ must never import from features/. Cross-feature state goes through Pinia stores or the router. See docs/ARCHITECTURE.md',
+            },
+            {
+              group: ['@/shared/*/*', '@/shared/*/**'],
+              message:
+                "Import from the shared folder's public index, not from internal files. Use '@/shared/X' instead of '@/shared/X/file'. See docs/ARCHITECTURE.md",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // Scope C — shell/ (can import from everything, but must use shared indexes)
+  {
+    name: 'app/shell-index-only',
+    files: ['src/shell/**/*.{vue,ts}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/shared/*/*', '@/shared/*/**'],
+              message:
+                "Import from the shared folder's public index, not from internal files. Use '@/shared/X' instead of '@/shared/X/file'. See docs/ARCHITECTURE.md",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // Scope D — src root files: App.vue, routes.ts, main.ts … (must use shared indexes)
+  {
+    name: 'app/src-root-index-only',
+    files: ['src/*.{vue,ts}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/shared/*/*', '@/shared/*/**'],
+              message:
+                "Import from the shared folder's public index, not from internal files. Use '@/shared/X' instead of '@/shared/X/file'. See docs/ARCHITECTURE.md",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,

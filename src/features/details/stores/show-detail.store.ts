@@ -9,9 +9,8 @@
 
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getShowDetails } from '@/shared/api/shows-api'
-import { toErrorKey } from '@/shared/utils/to-error-key'
-import type { ShowDetails } from '@/shared/types/show'
+import { getShowDetails, toErrorKey } from '@/shared/api'
+import type { ShowDetails } from '@/shared/types'
 
 export const useShowDetailsStore = defineStore('showDetails', () => {
   /** The currently displayed show, or null before the first fetch completes. */

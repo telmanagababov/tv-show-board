@@ -3,7 +3,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, type Pinia } from 'pinia'
 
 import { i18n } from '@/shared/i18n'
-import { useThemeStore } from '@/shared/stores/theme.store'
+import { useThemeStore } from '@/shared/stores'
 import ThemeToggle from './ThemeToggle.vue'
 
 describe('ThemeToggle', () => {

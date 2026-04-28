@@ -15,9 +15,9 @@ import type {
   TvMazeShowStatus,
   TvMazeShowWithEmbeds,
 } from './tvmaze-types'
-import type { CastMember, ShowDetails, ShowGalleryImage, ShowImage, ShowStatus, ShowSummary } from '@/shared/types/show'
-import type { PersonDetails } from '@/shared/types/person'
-import { stripHtml } from '@/shared/utils/strip-html'
+import type { CastMember, ShowDetails, ShowGalleryImage, ShowImage, ShowStatus, ShowSummary } from '@/shared/types'
+import type { PersonDetails } from '@/shared/types'
+import { stripHtml } from '@/shared/utils'
 
 export function mapShowSummary(api: TvMazeShow): ShowSummary {
   const summaryHtml = api.summary ?? ''

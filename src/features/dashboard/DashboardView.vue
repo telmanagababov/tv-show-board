@@ -5,9 +5,7 @@ import './i18n'
 
 import { useShowsStore } from './stores/shows.store'
 import GenreSection from './components/GenreSection.vue'
-import ErrorState from '@/shared/components/ErrorState.vue'
-import EmptyState from '@/shared/components/EmptyState.vue'
-import LoadingIndicator from '@/shared/components/LoadingIndicator.vue'
+import { ErrorState, EmptyState, LoadingIndicator } from '@/shared/components'
 
 const { t } = useI18n()
 const store = useShowsStore()

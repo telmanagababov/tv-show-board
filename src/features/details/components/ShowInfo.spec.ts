@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import '@/features/details/i18n'
+import '../i18n'
 import { i18n } from '@/shared/i18n'
 import ShowInfo from './ShowInfo.vue'
-import type { ShowDetails } from '@/shared/types/show'
+import type { ShowDetails } from '@/shared/types'
 
 describe('ShowInfo', () => {
   const locators = {

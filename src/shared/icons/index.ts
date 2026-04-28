@@ -1,0 +1,6 @@
+export { default as IconClose } from './IconClose.vue'
+export { default as IconGitHub } from './IconGitHub.vue'
+export { default as IconMoon } from './IconMoon.vue'
+export { default as IconNoArtwork } from './IconNoArtwork.vue'
+export { default as IconSearch } from './IconSearch.vue'
+export { default as IconSun } from './IconSun.vue'

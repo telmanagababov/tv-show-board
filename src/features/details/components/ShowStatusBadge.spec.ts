@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import '@/features/details/i18n'
+import '../i18n'
 import { i18n } from '@/shared/i18n'
 import ShowStatusBadge from './ShowStatusBadge.vue'
 

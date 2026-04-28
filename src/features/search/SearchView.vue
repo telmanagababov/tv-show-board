@@ -2,10 +2,7 @@
 import { useI18n } from 'vue-i18n'
 
 import { useSearchStore } from './stores/search.store'
-import ShowCard from '@/shared/components/ShowCard.vue'
-import LoadingIndicator from '@/shared/components/LoadingIndicator.vue'
-import ErrorState from '@/shared/components/ErrorState.vue'
-import EmptyState from '@/shared/components/EmptyState.vue'
+import { ShowCard, LoadingIndicator, ErrorState, EmptyState } from '@/shared/components'
 import './i18n'
 
 const { t } = useI18n()
