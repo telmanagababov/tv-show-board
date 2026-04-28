@@ -8,7 +8,6 @@ import { useGenreLabel } from '@/shared/composables/useGenreLabel'
 import { formatRating } from '@/shared/utils/format-rating'
 import IconNoArtwork from '@/shared/icons/IconNoArtwork.vue'
 import Tooltip from '@/shared/components/Tooltip.vue'
-import '../i18n'
 
 const { t } = useI18n()
 const { translateGenre } = useGenreLabel()
@@ -17,6 +16,11 @@ const props = defineProps<{ show: ShowSummary; genre?: string }>()
 const previewImage = computed(() => props.show.image?.medium ?? null)
 const isRated = computed(() => props.show.rating !== null)
 const ratingLabel = computed(() => formatRating(props.show.rating))
+const ratingAriaLabel = computed(() =>
+  isRated.value
+    ? t('common.showCard.ratedAriaLabel', { rating: ratingLabel.value })
+    : t('common.showCard.notRatedAriaLabel'),
+)
 const genreLabel = computed(() => translateGenre(props.genre ?? ''))
 </script>
 
@@ -24,14 +28,6 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
   <RouterLink
     :to="{ name: RouteNames.DETAILS, params: { id: show.id } }"
     class="group border-border bg-surface focus-visible:outline-brand relative flex w-36 shrink-0 flex-col overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 sm:w-40"
-    :aria-label="
-      t('dashboard.showCard.ariaLabel', {
-        name: show.name,
-        genre: genreLabel,
-        rating: ratingLabel,
-        year: show.premieredYear,
-      })
-    "
     data-testid="show-card"
   >
     <!-- Preview image -->
@@ -39,7 +35,7 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
       <img
         v-if="previewImage"
         :src="previewImage"
-        :alt="t('dashboard.showCard.previewAlt', { name: show.name })"
+        :alt="t('common.showCard.previewAlt', { name: show.name })"
         class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
         loading="lazy"
         data-testid="show-card-preview-image"
@@ -58,6 +54,7 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
       <span
         class="absolute top-1.5 right-1.5 rounded-md px-1.5 py-0.5 text-xs leading-none font-bold tabular-nums"
         :class="isRated ? 'bg-accent text-fg' : 'bg-surface/80 text-fg-muted'"
+        :aria-label="ratingAriaLabel"
         data-testid="show-card-rating"
       >
         {{ ratingLabel }}
@@ -71,8 +68,13 @@ const genreLabel = computed(() => translateGenre(props.genre ?? ''))
           {{ show.name }}
         </p>
       </Tooltip>
-      <p v-if="show.premieredYear" class="text-fg-subtle text-[10px]" data-testid="show-card-year">
-        {{ show.premieredYear }}
+      <span v-if="genreLabel" class="sr-only" data-testid="show-card-genre">{{ genreLabel }}</span>
+      <p
+        class="text-fg-subtle text-[10px]"
+        :aria-hidden="!show.premieredYear || undefined"
+        data-testid="show-card-year"
+      >
+        {{ show.premieredYear ?? '\u00A0' }}
       </p>
     </div>
   </RouterLink>

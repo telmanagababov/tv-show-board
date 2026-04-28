@@ -6,7 +6,7 @@
  *  - expose search results and loading / error state
  */
 
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { defineStore } from 'pinia'
 import { searchShows } from '@/shared/api/shows-api'
@@ -22,6 +22,9 @@ export const useSearchStore = defineStore('search', () => {
   const loading = ref(false)
   const error = ref<string | null>(null)
 
+  const query = computed(() => (route.query[SEARCH_QUERY_KEY] as string | undefined) ?? '')
+  const hasQuery = computed(() => query.value.trim().length > 0)
+
   let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
   /**
@@ -29,11 +32,11 @@ export const useSearchStore = defineStore('search', () => {
    * direct navigation to /search?q=batman triggers a fetch
    */
   watch(
-    () => (route.query[SEARCH_QUERY_KEY] as string | undefined) ?? '',
-    (query) => {
+    query,
+    (value) => {
       clearTimeout(debounceTimer)
-      if (query.trim()) {
-        debounceTimer = setTimeout(() => performSearch(query.trim()), DEBOUNCE_MS)
+      if (value.trim()) {
+        debounceTimer = setTimeout(() => performSearch(value.trim()), DEBOUNCE_MS)
       } else {
         shows.value = []
         error.value = null
@@ -45,11 +48,11 @@ export const useSearchStore = defineStore('search', () => {
   /**
    * Performs a search for the given query and updates the shows state.
    */
-  async function performSearch(query: string): Promise<void> {
+  async function performSearch(value: string): Promise<void> {
     loading.value = true
     error.value = null
     try {
-      shows.value = await searchShows(query)
+      shows.value = await searchShows(value)
     } catch (err) {
       error.value = toErrorKey(err)
       shows.value = []
@@ -58,5 +61,14 @@ export const useSearchStore = defineStore('search', () => {
     }
   }
 
-  return { shows, loading, error, DEBOUNCE_MS }
+  /**
+   * Re-runs the current query.
+   */
+  function retry(): void {
+    if (hasQuery.value) {
+      performSearch(query.value.trim())
+    }
+  }
+
+  return { shows, loading, error, query, hasQuery, retry, DEBOUNCE_MS }
 })

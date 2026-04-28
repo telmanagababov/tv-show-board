@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import '../i18n'
 import type { ShowSummary } from '@/shared/types/show'
-import ShowCard from './ShowCard.vue'
+import ShowCard from '@/shared/components/ShowCard.vue'
 
 const { t } = useI18n()
 

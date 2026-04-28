@@ -11,9 +11,5 @@
   },
   "showList": {
     "empty": "No shows in this genre yet."
-  },
-  "showCard": {
-    "ariaLabel": "{name}, {genre}, rated {rating}, released in {year}",
-    "previewAlt": "{name} preview image"
   }
 }

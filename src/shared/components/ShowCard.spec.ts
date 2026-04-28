@@ -14,13 +14,14 @@ describe('ShowCard', () => {
     previewImageFallback: '[data-testid="show-card-preview-image-fallback"]',
     rating: '[data-testid="show-card-rating"]',
     title: '[data-testid="show-card-title"]',
+    genre: '[data-testid="show-card-genre"]',
     year: '[data-testid="show-card-year"]',
   } as const
 
   let wrapper: VueWrapper
 
   beforeEach(() => {
-    wrapper = mountCard(makeShow())
+    wrapper = mountCard(makeShow(), 'Drama')
   })
 
   it('renders the card as a link to the detail page', () => {
@@ -58,22 +59,35 @@ describe('ShowCard', () => {
     expect(wrapper.find(locators.year).text()).toBe('2008')
   })
 
-  it('omits the year element when premieredYear is null', () => {
+  it('renders a blank placeholder in the year slot when premieredYear is null', () => {
     wrapper = mountCard(makeShow({ premieredYear: null }))
 
-    expect(wrapper.find(locators.year).exists()).toBe(false)
+    expect(wrapper.find(locators.year).exists()).toBe(true)
+    expect(wrapper.find(locators.year).text()).toBe('')
   })
 
-  it('includes an accessible aria-label with name, genre, rating and year', () => {
-    expect(wrapper.find(locators.card).attributes('aria-label')).toBe(
-      'Breaking Bad, Drama, rated 9.5, released in 2008',
-    )
+  it('does not carry an aria-label on the link (accessible name comes from inner content)', () => {
+    expect(wrapper.find(locators.card).attributes('aria-label')).toBeUndefined()
   })
 
-  it('shows "rated —" in the aria-label when there is no rating', () => {
-    wrapper = mountCard(makeShow({ name: 'Some Show', rating: null }))
+  it('gives the rating badge an aria-label that contextualises the number', () => {
+    expect(wrapper.find(locators.rating).attributes('aria-label')).toBe('Rated 9.5')
+  })
 
-    expect(wrapper.find(locators.card).attributes('aria-label')).toBe('Some Show, Drama, rated —, released in 2008')
+  it('gives the rating badge an aria-label of "Not rated" when rating is null', () => {
+    wrapper = mountCard(makeShow({ rating: null }))
+
+    expect(wrapper.find(locators.rating).attributes('aria-label')).toBe('Not rated')
+  })
+
+  it('renders a visually hidden genre label for screen readers when genre is provided', () => {
+    expect(wrapper.find(locators.genre).text()).toBe('Drama')
+  })
+
+  it('omits the genre label when no genre prop is passed', () => {
+    wrapper = mountCard(makeShow())
+
+    expect(wrapper.find(locators.genre).exists()).toBe(false)
   })
 
   function makeShow(overrides: Partial<ShowSummary> = {}): ShowSummary {
@@ -93,7 +107,7 @@ describe('ShowCard', () => {
     }
   }
 
-  function mountCard(show: ShowSummary, genre = 'Drama') {
+  function mountCard(show: ShowSummary, genre?: string) {
     const router = createRouter({
       history: createMemoryHistory(),
       routes: [
@@ -102,7 +116,7 @@ describe('ShowCard', () => {
       ],
     })
     return mount(ShowCard, {
-      props: { show, genre },
+      props: genre !== undefined ? { show, genre } : { show },
       global: { plugins: [router, i18n] },
     })
   }
