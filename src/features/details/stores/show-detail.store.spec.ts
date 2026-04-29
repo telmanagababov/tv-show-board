@@ -8,7 +8,7 @@ import type { ShowDetails } from '@/shared/types'
 // ── mock the API façade ───────────────────────────────────────────────────────
 vi.mock('@/shared/api', async (importOriginal) => ({
   ...(await importOriginal()),
-  getShowDetails: vi.fn(),
+  getShowDetails: vi.fn<typeof getShowDetails>(),
 }))
 const mockGetShowDetails = vi.mocked(getShowDetails)
 

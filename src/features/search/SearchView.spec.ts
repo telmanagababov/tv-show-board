@@ -9,7 +9,7 @@ import { useSearchStore } from './stores/search.store'
 import type { ShowSummary } from '@/shared/types'
 
 vi.mock('./stores/search.store', () => ({
-  useSearchStore: vi.fn(),
+  useSearchStore: vi.fn<() => ReturnType<typeof useSearchStore>>(),
 }))
 
 describe('SearchView', () => {
@@ -130,7 +130,7 @@ describe('SearchView', () => {
       error: null,
       query: '',
       hasQuery: false,
-      retry: vi.fn(),
+      retry: vi.fn<() => void>(),
       ...overrides,
     }
   }

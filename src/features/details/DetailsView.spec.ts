@@ -9,7 +9,7 @@ import { useShowDetailsStore } from './stores/show-detail.store'
 import type { ShowDetails } from '@/shared/types'
 
 vi.mock('./stores/show-detail.store', () => ({
-  useShowDetailsStore: vi.fn(),
+  useShowDetailsStore: vi.fn<() => ReturnType<typeof useShowDetailsStore>>(),
 }))
 
 describe('DetailsView', () => {
@@ -242,8 +242,8 @@ describe('DetailsView', () => {
       details: null,
       loading: false,
       error: null,
-      fetchDetails: vi.fn(),
-      clearDetails: vi.fn(),
+      fetchDetails: vi.fn<() => void>(),
+      clearDetails: vi.fn<() => void>(),
       ...overrides,
     }
   }

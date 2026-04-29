@@ -9,7 +9,7 @@ import type { ShowSummary } from '@/shared/types'
 import { useShowsStore } from './stores/shows.store'
 
 vi.mock('./stores/shows.store', () => ({
-  useShowsStore: vi.fn(),
+  useShowsStore: vi.fn<() => ReturnType<typeof useShowsStore>>(),
 }))
 
 describe('DashboardView', () => {
@@ -188,8 +188,8 @@ describe('DashboardView', () => {
       genres: [],
       showsByGenre: new Map(),
       hasMore: false,
-      fetchShows: vi.fn(),
-      fetchMoreShows: vi.fn(),
+      fetchShows: vi.fn<() => void>(),
+      fetchMoreShows: vi.fn<() => void>(),
       ...overrides,
     }
   }

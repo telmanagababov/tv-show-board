@@ -7,7 +7,7 @@ import type { ShowSummary } from '@/shared/types'
 
 vi.mock('@/shared/api', async (importOriginal) => ({
   ...(await importOriginal()),
-  getShows: vi.fn(),
+  getShows: vi.fn<typeof getShows>(),
 }))
 
 describe('useShowsStore', () => {
