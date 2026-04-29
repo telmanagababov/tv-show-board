@@ -1,73 +1,122 @@
-# .
+# TV Show Board
 
-This template should help get you started developing with Vue 3 in Vite.
+> **Demo:** [_link coming soon_](#)
 
-## Recommended IDE Setup
+A TV show discovery dashboard built with Vue 3. Browse top-rated shows grouped by genre, view full show and cast details, and search by title — all with dark/light theme support.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+![TV Show Board screenshot](docs/PREVIEW.png)
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Setup
 
 ```sh
+# 1. Clone
+git clone https://github.com/<you>/tv-show-board.git
+cd tv-show-board
+
+# 2. Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 3. Start the dev server
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Open [http://localhost:5173](http://localhost:5173).
 
-```sh
-npm run build
+---
+
+## Tech Stack
+
+| Concern    | Choice                  | Why                                                       |
+| ---------- | ----------------------- | --------------------------------------------------------- |
+| Framework  | Vue 3 (Composition API) | Modern standard; `<script setup>` + composables           |
+| Language   | TypeScript              | Type safety, better DX, fewer runtime surprises           |
+| State      | Pinia                   | Official Vue store — simple, modular, TS-first            |
+| Routing    | Vue Router 5            | Lazy-loaded routes, typed route names                     |
+| Build      | Vite                    | Near-instant HMR, zero-config                             |
+| Styling    | Tailwind CSS 4          | Utility-first; CSS custom properties for theming          |
+| i18n       | vue-i18n                | Composition mode, namespaced messages, type-safe keys     |
+| Unit tests | Vitest + Vue Test Utils | Native Vite integration, Jest-compatible API              |
+| E2E tests  | Playwright              | Reliable cross-browser automation                         |
+| Linting    | oxlint + ESLint         | Rust-speed first pass + Vue/TS rule extensions            |
+| Formatting | Prettier                | Class ordering enforced via `prettier-plugin-tailwindcss` |
+| Security   | DOMPurify               | Sanitises TVMaze HTML descriptions against XSS            |
+
+---
+
+## Architecture
+
+The `src/` tree has three top-level buckets:
+
+```
+src/
+├── shell/        # App frame — header, layout, 404 (used once)
+├── features/     # Domain capabilities — dashboard, details, search, person
+│   ├── dashboard/
+│   ├── details/
+│   ├── person/
+│   └── search/
+└── shared/       # Reusable building blocks (used by 2+ features)
+    ├── api/          # TVMaze HTTP client + raw response types + mappers
+    ├── components/
+    ├── composables/
+    ├── i18n/
+    ├── stores/
+    ├── services/
+    ├── types/        # Domain types (Show, Person, …)
+    └── utils/
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+---
+
+## Scripts
+
+| Script                       | What it does                                  |
+| ---------------------------- | --------------------------------------------- |
+| `npm run dev`                | Start Vite dev server with HMR                |
+| `npm run build`              | Type-check + production build                 |
+| `npm run preview`            | Preview the production build locally          |
+| `npm run type-check`         | Run `vue-tsc` without emitting                |
+| `npm run lint`               | Run oxlint + ESLint (with auto-fix)           |
+| `npm run lint:check`         | Lint without fixing (used in CI)              |
+| `npm run format`             | Format `src/` with Prettier                   |
+| `npm run format:check`       | Check formatting without writing (used in CI) |
+| `npm run test:unit`          | Run Vitest in watch mode                      |
+| `npm run test:unit:coverage` | Run Vitest once with V8 coverage report       |
+| `npm run test:e2e`           | Run Playwright E2E suite                      |
+| `npm run test:e2e:ui`        | Open Playwright UI mode                       |
+
+---
+
+## E2E Tests
+
+E2E tests use Playwright and live in `e2e/`. They run against a production build served locally, using route-level network mocking (no real TVMaze calls).
 
 ```sh
-npm run test:unit
-```
+# First time: install browsers
+npx playwright install chromium
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-npm run build
-
-# Runs the end-to-end tests
+# Run all E2E tests
 npm run test:e2e
-# Runs the tests only on Chromium
-npm run test:e2e -- --project=chromium
-# Runs the tests of a specific file
-npm run test:e2e -- tests/example.spec.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
+
+# Open interactive UI mode
+npm run test:e2e:ui
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+---
 
-```sh
-npm run lint
-```
+## CI
+
+GitHub Actions runs two jobs on every push to `main` and on pull requests:
+
+| Job     | Steps                                                                         |
+| ------- | ----------------------------------------------------------------------------- |
+| **ci**  | type-check → lint → format check → unit tests → build                         |
+| **e2e** | install Playwright browsers → build → Playwright / Chromium (runs after `ci`) |
+
+Workflow file: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+
+---
+
+## Deployment
+
+_Coming soon — see [Plan item 4.3](docs/PLAN.md)._
