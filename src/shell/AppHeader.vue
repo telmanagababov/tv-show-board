@@ -49,7 +49,7 @@ function clearSearch(): void {
 
 <template>
   <header
-    class="bg-brand-dark/95 sticky top-0 z-50 border-b border-white/15 backdrop-blur-sm"
+    class="bg-brand-dark sticky top-0 z-50 border-b border-white/15 backdrop-blur-sm"
     role="banner"
     data-testid="app-header"
   >
@@ -80,7 +80,7 @@ function clearSearch(): void {
             :placeholder="t('shell.header.searchPlaceholder')"
             autocomplete="off"
             data-testid="search-input"
-            class="focus:border-accent focus:ring-accent/40 h-11 w-full rounded-full border border-white/60 bg-white/10 pr-10 pl-9 text-sm text-white placeholder-white/70 transition outline-none focus:bg-white/20 focus:ring-2"
+            class="focus:border-accent focus:ring-accent/40 h-11 w-full rounded-full border border-white/60 pr-10 pl-9 text-sm text-white placeholder-white/90 transition outline-none focus:bg-white/5 focus:ring-2"
             @input="updateSearch"
             @keydown.escape="clearSearch"
           />

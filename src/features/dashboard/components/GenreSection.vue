@@ -20,7 +20,7 @@ const ariaLabel = computed(() => t('dashboard.genreSection.ariaLabel', { genre: 
 
 <template>
   <section :aria-label="ariaLabel" class="flex flex-col gap-3" data-testid="genre-section">
-    <h2 class="text-brand text-lg font-bold tracking-tight" data-testid="genre-section-heading">
+    <h2 class="text-brand-dark dark:text-brand text-lg font-bold tracking-tight" data-testid="genre-section-heading">
       {{ genre }}
     </h2>
 

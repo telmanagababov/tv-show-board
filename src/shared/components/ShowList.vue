@@ -32,7 +32,7 @@ defineProps<{
       >
         <span class="text-lg leading-none">↓</span>
         <p v-if="sentinelHeading" class="text-xs font-medium">{{ sentinelHeading }}</p>
-        <p v-if="sentinelHint" class="text-[10px] opacity-60">{{ sentinelHint }}</p>
+        <p v-if="sentinelHint" class="text-fg-subtle text-[10px]">{{ sentinelHint }}</p>
       </div>
     </li>
   </ul>

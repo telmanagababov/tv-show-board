@@ -66,7 +66,7 @@ onMounted(() => store.fetchShows())
       <button
         v-else
         :id="DomIds.LOAD_MORE_ACTION"
-        class="bg-brand hover:bg-brand-hover h-9 rounded px-6 text-sm font-semibold text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-white"
+        class="bg-brand-dark hover:bg-brand h-9 rounded px-6 text-sm font-semibold text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-white"
         data-testid="dashboard-load-more"
         @click="store.fetchMoreShows()"
       >
