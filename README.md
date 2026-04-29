@@ -1,5 +1,7 @@
 # TV Show Board
 
+[![CI](https://github.com/telmanagababov/tv-show-board/actions/workflows/ci.yml/badge.svg)](https://github.com/telmanagababov/tv-show-board/actions/workflows/ci.yml)
+
 > **Demo:** [tv-show-board.netlify.app](https://tv-show-board.netlify.app)
 
 A TV show discovery dashboard built with Vue 3. Browse top-rated shows grouped by genre, view full show and cast details, and search by title — all with dark/light theme support.
