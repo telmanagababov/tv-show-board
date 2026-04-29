@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
 import { i18n } from '@/shared/i18n'
@@ -14,6 +15,8 @@ describe('PersonCard', () => {
     photoFallback: '[data-testid="person-card-photo-fallback"]',
     name: '[data-testid="person-card-name"]',
     character: '[data-testid="person-card-character"]',
+    tooltipTrigger: '[data-testid="tooltip-trigger"]',
+    tooltipPopup: '[data-testid="tooltip-popup"]',
   } as const
 
   const person1: CastMember = {
@@ -51,8 +54,13 @@ describe('PersonCard', () => {
     return mount(PersonCard, {
       props: { member },
       global: { plugins: [router, i18n] },
+      attachTo: document.body,
     })
   }
+
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
 
   it('renders a link to the person page', () => {
     const wrapper = mountCard(person1)
@@ -87,5 +95,30 @@ describe('PersonCard', () => {
     const wrapper = mountCard(person1)
 
     expect(wrapper.find(locators.character).text()).toBe('Character Name 1')
+  })
+
+  it('wraps the character name in a tooltip trigger', () => {
+    const wrapper = mountCard(person1)
+
+    expect(wrapper.find(locators.tooltipTrigger).exists()).toBe(true)
+  })
+
+  it('shows a tooltip with the full character name on hover', async () => {
+    const wrapper = mountCard(person1)
+
+    await wrapper.find(locators.tooltipTrigger).trigger('mouseenter')
+    await nextTick()
+
+    expect(document.querySelector(locators.tooltipPopup)?.textContent?.trim()).toBe('Character Name 1')
+  })
+
+  it('tooltip shows all roles when actor plays multiple characters', async () => {
+    const multiRole: CastMember = { ...person1, characterName: 'Role A, Role B' }
+    const wrapper = mountCard(multiRole)
+
+    await wrapper.find(locators.tooltipTrigger).trigger('mouseenter')
+    await nextTick()
+
+    expect(document.querySelector(locators.tooltipPopup)?.textContent?.trim()).toBe('Role A, Role B')
   })
 })

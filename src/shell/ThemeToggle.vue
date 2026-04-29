@@ -10,7 +10,7 @@ const store = useThemeStore()
 <template>
   <button
     type="button"
-    class="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"
+    class="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"
     :aria-label="store.theme === 'dark' ? t('shell.header.switchToLight') : t('shell.header.switchToDark')"
     data-testid="theme-toggle"
     @click="store.toggleTheme"

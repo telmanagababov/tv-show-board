@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import { RouteNames } from '@/shared/constants'
 import { IconNoArtwork } from '@/shared/icons'
+import { Tooltip } from '@/shared/components'
 import type { CastMember } from '@/shared/types'
 
 defineProps<{ member: CastMember }>()
@@ -39,9 +40,11 @@ defineProps<{ member: CastMember }>()
       <p class="text-fg truncate text-xs font-semibold" data-testid="person-card-name">
         {{ member.personName }}
       </p>
-      <p class="text-fg-muted truncate text-[10px]" data-testid="person-card-character">
-        {{ member.characterName }}
-      </p>
+      <Tooltip :text="member.characterName">
+        <p class="text-fg-muted truncate text-[10px]" data-testid="person-card-character">
+          {{ member.characterName }}
+        </p>
+      </Tooltip>
     </div>
   </RouterLink>
 </template>

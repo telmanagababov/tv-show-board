@@ -17,9 +17,9 @@ onMounted(() => store.fetchShows())
 </script>
 
 <template>
-  <div class="p-8 pb-20" data-testid="dashboard">
+  <div class="px-4 pt-4 pb-20 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8" data-testid="dashboard">
     <!-- Title -->
-    <h1 class="text-brand mb-12 text-4xl font-bold" data-testid="dashboard-title">
+    <h1 class="text-brand mb-6 text-2xl font-bold sm:mb-10 sm:text-4xl" data-testid="dashboard-title">
       {{ t('dashboard.title') }}
     </h1>
 

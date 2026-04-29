@@ -41,7 +41,7 @@ export function mapShowDetails(api: TvMazeShowWithEmbeds): ShowDetails {
     ...mapShowSummary(api),
     officialSite: api.officialSite,
     schedule: { time: api.schedule.time, days: [...api.schedule.days] },
-    cast: (api._embedded?.cast ?? []).map(mapCastMember),
+    cast: deduplicateByPersonId(api._embedded?.cast ?? []).map(mapCastMember),
     images: (api._embedded?.images ?? []).map(mapGalleryImage),
   }
 }
@@ -73,6 +73,26 @@ function parseYear(premiered: string | null): number | null {
 function mapImage(image: TvMazeShow['image']): ShowImage | null {
   if (!image) return null
   return { medium: image.medium, original: image.original }
+}
+
+/**
+ * Collapses multiple credits for the same actor into one entry.
+ */
+function deduplicateByPersonId(cast: TvMazeCastMember[]): TvMazeCastMember[] {
+  const members = new Map<number, { member: TvMazeCastMember; characterNames: string[] }>()
+  cast.forEach((castMember) => {
+    const member = members.get(castMember.person.id)
+    if (member) {
+      member.characterNames.push(castMember.character.name)
+    } else {
+      members.set(castMember.person.id, { member: castMember, characterNames: [castMember.character.name] })
+    }
+  })
+  return Array.from(members.values()).map(({ member, characterNames }) =>
+    characterNames.length === 1
+      ? member
+      : { ...member, character: { ...member.character, name: characterNames.join(', ') } },
+  )
 }
 
 function mapCastMember(member: TvMazeCastMember): CastMember {

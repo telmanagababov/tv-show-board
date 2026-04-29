@@ -4,6 +4,7 @@ import { mapPersonDetails, mapShowDetails, mapShowSummary, mapStatus } from './t
 import type {
   TvMazeCastCredit,
   TvMazeCastMember,
+  TvMazeCharacter,
   TvMazePerson,
   TvMazeShow,
   TvMazeShowImage,
@@ -130,6 +131,69 @@ describe('tvmaze mappers', () => {
 
       expect(show.schedule.days).not.toBe(api.schedule.days)
     })
+
+    describe('cast deduplication', () => {
+      it('deduplicates cast members with the same person id', () => {
+        const api: TvMazeShowWithEmbeds = {
+          ...makeTvMazeShow(),
+          _embedded: {
+            cast: [makeCastMember(), makeCastMember({ character: makeCharacter({ id: 201, name: 'Second Role' }) })],
+            images: [],
+          },
+        }
+
+        const show = mapShowDetails(api)
+
+        expect(show.cast).toHaveLength(1)
+        expect(show.cast[0]!.personId).toBe(100)
+      })
+
+      it('joins character names when the same actor plays multiple roles', () => {
+        const api: TvMazeShowWithEmbeds = {
+          ...makeTvMazeShow(),
+          _embedded: {
+            cast: [
+              makeCastMember({ character: makeCharacter({ id: 200, name: 'Role A' }) }),
+              makeCastMember({ character: makeCharacter({ id: 201, name: 'Role B' }) }),
+              makeCastMember({ character: makeCharacter({ id: 202, name: 'Role C' }) }),
+            ],
+            images: [],
+          },
+        }
+
+        const show = mapShowDetails(api)
+
+        expect(show.cast[0]!.characterName).toBe('Role A, Role B, Role C')
+      })
+
+      it('does not modify the source API objects', () => {
+        const first = makeCastMember({ character: makeCharacter({ id: 200, name: 'Role A' }) })
+        const second = makeCastMember({ character: makeCharacter({ id: 201, name: 'Role B' }) })
+        const api: TvMazeShowWithEmbeds = {
+          ...makeTvMazeShow(),
+          _embedded: { cast: [first, second], images: [] },
+        }
+
+        mapShowDetails(api)
+
+        expect(first.character.name).toBe('Role A')
+        expect(second.character.name).toBe('Role B')
+      })
+
+      it('keeps single-role actors unchanged', () => {
+        const api: TvMazeShowWithEmbeds = {
+          ...makeTvMazeShow(),
+          _embedded: {
+            cast: [makeCastMember()],
+            images: [],
+          },
+        }
+
+        const show = mapShowDetails(api)
+
+        expect(show.cast[0]!.characterName).toBe('Character Name')
+      })
+    })
   })
 
   describe('mapPersonDetails', () => {
@@ -223,7 +287,17 @@ function makeTvMazeShow(overrides: Partial<TvMazeShow> = {}): TvMazeShow {
   }
 }
 
-function makeCastMember(): TvMazeCastMember {
+function makeCharacter(overrides: Partial<TvMazeCharacter> = {}): TvMazeCharacter {
+  return {
+    id: 200,
+    url: '',
+    name: 'Character Name',
+    image: null,
+    _links: { self: { href: '' } },
+  }
+}
+
+function makeCastMember(overrides: Partial<TvMazeCastMember> = {}): TvMazeCastMember {
   return {
     person: {
       id: 100,
@@ -246,6 +320,7 @@ function makeCastMember(): TvMazeCastMember {
     },
     self: false,
     voice: false,
+    ...overrides,
   }
 }
 

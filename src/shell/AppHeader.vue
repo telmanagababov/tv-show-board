@@ -53,7 +53,7 @@ function clearSearch(): void {
     role="banner"
     data-testid="app-header"
   >
-    <div class="flex h-14 items-center gap-6 px-4 sm:px-6">
+    <div class="flex h-14 items-center gap-3 px-4 sm:gap-6 sm:px-6">
       <!-- Logo -->
       <RouterLink
         :to="{ name: RouteNames.DASHBOARD }"
@@ -62,7 +62,7 @@ function clearSearch(): void {
         data-testid="header-logo-link"
       >
         <LogoBadge class="size-7" />
-        <span class="text-base font-semibold tracking-wide">TV Board</span>
+        <span class="hidden text-base font-semibold tracking-wide sm:inline">TV Board</span>
       </RouterLink>
 
       <!-- Search bar -->
@@ -80,7 +80,7 @@ function clearSearch(): void {
             :placeholder="t('shell.header.searchPlaceholder')"
             autocomplete="off"
             data-testid="search-input"
-            class="focus:border-accent focus:ring-accent/40 h-9 w-full rounded-full border border-white/60 bg-white/10 pr-10 pl-9 text-sm text-white placeholder-white/70 transition outline-none focus:bg-white/20 focus:ring-2"
+            class="focus:border-accent focus:ring-accent/40 h-11 w-full rounded-full border border-white/60 bg-white/10 pr-10 pl-9 text-sm text-white placeholder-white/70 transition outline-none focus:bg-white/20 focus:ring-2"
             @input="updateSearch"
             @keydown.escape="clearSearch"
           />
@@ -107,7 +107,7 @@ function clearSearch(): void {
         href="https://github.com/telmanagababov/tv-show-board"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex size-9 shrink-0 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"
+        class="flex size-11 shrink-0 items-center justify-center rounded-full text-white/80 transition hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-white"
         :aria-label="t('shell.header.githubAriaLabel')"
         data-testid="github-link"
       >
