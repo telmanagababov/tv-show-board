@@ -3,6 +3,7 @@ import { RouteNames } from '@/shared/constants'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior: (_to, _from, savedPosition) => savedPosition ?? { top: 0 },
   routes: [
     {
       path: '/',

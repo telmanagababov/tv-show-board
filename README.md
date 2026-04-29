@@ -1,6 +1,6 @@
 # TV Show Board
 
-> **Demo:** [_link coming soon_](#)
+> **Demo:** [tv-show-board.netlify.app](https://tv-show-board.netlify.app)
 
 A TV show discovery dashboard built with Vue 3. Browse top-rated shows grouped by genre, view full show and cast details, and search by title — all with dark/light theme support.
 
@@ -119,4 +119,13 @@ Workflow file: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ## Deployment
 
-_Coming soon — see [Plan item 4.3](docs/PLAN.md)._
+Hosted on **Netlify** as a static site. Configuration lives in [`netlify.toml`](./netlify.toml):
+
+- **Build command:** `npm run build`
+- **Publish dir:** `dist`
+- **Node version:** 22
+- **SPA rewrite:** all routes (`/*`) are served as `index.html` with HTTP 200, so Vue Router's history mode works correctly on hard refresh and direct URL access.
+
+Every push to `main` triggers an automatic redeploy (~1 min build time).
+
+Live at: **[tv-show-board.netlify.app](https://tv-show-board.netlify.app)**
