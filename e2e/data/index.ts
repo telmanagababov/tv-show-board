@@ -1,0 +1,5 @@
+export { locators as dashboardLocators } from './dashboard'
+export { locators as searchLocators } from './search'
+export { locators as detailsLocators } from './details'
+export { locators as personLocators } from './person'
+export { locators as sharedLocators } from './shared'

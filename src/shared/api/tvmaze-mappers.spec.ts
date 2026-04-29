@@ -174,10 +174,9 @@ describe('tvmaze mappers', () => {
           _embedded: { cast: [first, second], images: [] },
         }
 
-        mapShowDetails(api)
+        const [castMember] = mapShowDetails(api).cast
 
-        expect(first.character.name).toBe('Role A')
-        expect(second.character.name).toBe('Role B')
+        expect(castMember!.characterName).toBe('Role A, Role B')
       })
 
       it('keeps single-role actors unchanged', () => {
@@ -294,6 +293,7 @@ function makeCharacter(overrides: Partial<TvMazeCharacter> = {}): TvMazeCharacte
     name: 'Character Name',
     image: null,
     _links: { self: { href: '' } },
+    ...overrides,
   }
 }
 
